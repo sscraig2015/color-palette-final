@@ -1,28 +1,25 @@
 
 import './App.css';
 import { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import HomepagePalette from './Components/HomepagePalette';
+import Navbar from './Components/Navbar';
+import LoginPage from './Pages.js/LoginPage';
 
 function App() {
   
-  const [data, setData] = useState()
-  console.log(data)
-
-  useEffect(() => {
-
-    const options = {
-      method: 'POST',
-      body: JSON.stringify({ 	
-        model : "default",
-        input : ["N","N","N","N","N"]})
-    }
-    fetch(`http://colormind.io/api/`, options)
-      .then((r) => r.json())
-      .then((data) => setData(data))
-  }, [])
   
-  return (
-    <div>hello</div>
-  );
+
+return(
+  <div className='h-screen w-screen'>
+    <Routes>
+      <Route path='*' element={<HomepagePalette />} />
+      <Route path='/home' element={<HomepagePalette />} />
+      <Route path='/login' element={<LoginPage/>} />
+    </Routes>
+    <Navbar />
+  </div>
+)
 }
 
 export default App;

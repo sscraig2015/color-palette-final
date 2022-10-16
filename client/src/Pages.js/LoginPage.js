@@ -10,28 +10,28 @@ const LoginPage = () => {
   const [password, setPassword] = useState()
   const [errors, setErrors] = useState()
 
-  function handleUser(e){
-    e.preventDefault()
+  // function handleUser(e){
+  //   e.preventDefault()
 
-    fetch("/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      })
-    })
-      .then((r) => {
-        if(r.ok) {
-          r.json().then((data) => setUser(data))
-          navigate('/home')
-        } else {
-          r.json().then((r) => setErrors(r))
-        }
-      })
-  }
+  //   fetch("/signin", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       username,
+  //       password,
+  //     })
+  //   })
+  //     .then((r) => {
+  //       if(r.ok) {
+  //         r.json().then((data) => setUser(data))
+  //         navigate('/home')
+  //       } else {
+  //         r.json().then((r) => setErrors(r))
+  //       }
+  //     })
+  // }
   
   return (
     <div className='border w-[30%] mx-auto mt-[5%]'>
@@ -39,11 +39,11 @@ const LoginPage = () => {
         <div>
           Sign into your account:
         </div>
-        <form className='flex flex-col' onSubmit={handleUser}>
+        <form className='flex flex-col' >
           <label>Username:</label>
-            <input name='username' value={username} onChange={(e) => setUsername(e.target.value)} autoFocus={true}></input>
+            <input name='username' className='border' value={username} onChange={(e) => setUsername(e.target.value)} autoFocus={true}></input>
           <label>Password:</label>
-            <input type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
+            <input className='border' type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
           <input type='submit' className='cursor-pointer border bg-slate-300 mt-3'/>
         </form>
       </div>

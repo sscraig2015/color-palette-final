@@ -11,7 +11,7 @@ function App() {
   
 
 return(
-  <div className='h-screen w-screen'>
+  <div>
     <Routes>
       <Route path='*' element={<HomepagePalette />} />
       <Route path='/home' element={<HomepagePalette />} />

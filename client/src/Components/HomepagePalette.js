@@ -18,7 +18,6 @@ const HomepagePalette = () => {
     }
   
     function convertPalettetoHex(givenPalette){
-        console.log(givenPalette)
       return givenPalette.map((colorRGB) => {
         return ConvertRGBtoHex(colorRGB[0], colorRGB[1], colorRGB[2])
       })
@@ -32,11 +31,8 @@ const HomepagePalette = () => {
         e.preventDefault()
         var copyText = e.target.value
 
-      
-         // Copy the text inside the text field
         navigator.clipboard.writeText(copyText);
       
-
       }
     
     useEffect(() => {

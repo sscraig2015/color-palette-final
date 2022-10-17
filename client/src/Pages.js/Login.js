@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { userLogin } from '../Slices/userSlice'
 
 const LoginPage = () => {
   
@@ -25,7 +26,7 @@ const LoginPage = () => {
     })
       .then((r) => {
         if(r.ok) {
-          r.json().then((data) => console.log(data))
+          r.json().then((data) => dispatch(userLogin(data)))
           navigate('/home')
         } else {
           r.json().then((r) => setErrors(r))

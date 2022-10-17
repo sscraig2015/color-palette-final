@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userLogin } from '../Slices/userSlice'
 
 const Signup = () => {
@@ -66,7 +66,7 @@ const Signup = () => {
               <input type='submit' className='cursor-pointer border bg-slate-300 mt-3'/>
             </form>
           </div>
-          {errors? <div>{errors.errors}</div> : null }
+          {errors? <div>{errors.error}</div> : null }
         </div>
       )
 }

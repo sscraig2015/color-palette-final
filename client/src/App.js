@@ -2,15 +2,26 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from './Slices/userSlice';
 import HomepagePalette from './Components/HomepagePalette';
 import Navbar from './Components/Navbar';
 import Login from './Pages.js/Login';
 import Signup from './Pages.js/Signup';
 
 function App() {
+
+  const dispatch = useDispatch()
   
-  
+  //Auto login user
+  useEffect(() => {
+
+    fetch('/me').then((r) => {
+        if (r.ok) {
+          r.json().then((user) => dispatch(userLogin(user)));
+        }
+      })
+      }, []);
 
 return(
   <div>

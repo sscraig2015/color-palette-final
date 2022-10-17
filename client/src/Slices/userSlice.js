@@ -18,9 +18,13 @@ const userSlice = createSlice({
         userLogin(state, action) {
             state.id = action.payload.id
             state.username = action.payload.username
+        },
+        userLogout(state, action) {
+            state.id = ''
+            state.username = ''
         }
     }
 })
 
-export const { userLogin } = userSlice.actions
+export const { userLogin, userLogout } = userSlice.actions
 export default userSlice.reducer

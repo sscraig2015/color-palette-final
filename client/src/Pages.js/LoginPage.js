@@ -10,28 +10,28 @@ const LoginPage = () => {
   const [password, setPassword] = useState()
   const [errors, setErrors] = useState()
 
-  // function handleUser(e){
-  //   e.preventDefault()
+  function handleUser(e){
+    e.preventDefault()
 
-  //   fetch("/signin", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       username,
-  //       password,
-  //     })
-  //   })
-  //     .then((r) => {
-  //       if(r.ok) {
-  //         r.json().then((data) => setUser(data))
-  //         navigate('/home')
-  //       } else {
-  //         r.json().then((r) => setErrors(r))
-  //       }
-  //     })
-  // }
+    fetch("/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      })
+    })
+      .then((r) => {
+        if(r.ok) {
+          r.json().then((data) => console.log(data))
+          navigate('/home')
+        } else {
+          r.json().then((r) => setErrors(r))
+        }
+      })
+  }
   
   return (
     <div className='border w-[30%] mx-auto mt-[5%]'>
@@ -39,7 +39,7 @@ const LoginPage = () => {
         <div>
           Sign into your account:
         </div>
-        <form className='flex flex-col' >
+        <form onSubmit={handleUser} className='flex flex-col' >
           <label>Username:</label>
             <input name='username' className='border' value={username} onChange={(e) => setUsername(e.target.value)} autoFocus={true}></input>
           <label>Password:</label>

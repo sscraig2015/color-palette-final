@@ -73,7 +73,7 @@ const HomepagePalette = () => {
                             return (
                                 //Color Tile
                                 <div key={key} className='w-[20%] flex flex-col'>
-                                    <div className='grow-3 h-[80%]' style={{ backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`}}>
+                                    <div className='h-[80%]' style={{ backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`}}>
                                         
                                     </div>
                                     <div className='h-[13%] border text-center'>

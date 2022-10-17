@@ -8,6 +8,7 @@ import HomepagePalette from './Components/HomepagePalette';
 import Navbar from './Components/Navbar';
 import Login from './Pages.js/Login';
 import Signup from './Pages.js/Signup';
+import UserProfile from './Pages.js/UserProfile';
 
 function App() {
 
@@ -30,6 +31,7 @@ return(
       <Route path='/home' element={<HomepagePalette />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/signup' element={<Signup/>} />
+      <Route path='/user/:id' element={<UserProfile />} />
     </Routes>
     <Navbar />
   </div>

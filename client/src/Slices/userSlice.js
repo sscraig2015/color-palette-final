@@ -7,8 +7,8 @@ export const fetchUser = createAsyncThunk('user/fetchUser', () => {
 })
 
 const initialState = {
-    id: '',
-    username: '',
+    id: null,
+    username: null,
 
 }
 const userSlice = createSlice({
@@ -20,8 +20,8 @@ const userSlice = createSlice({
             state.username = action.payload.username
         },
         userLogout(state, action) {
-            state.id = ''
-            state.username = ''
+            state.id = null
+            state.username = null
         }
     }
 })

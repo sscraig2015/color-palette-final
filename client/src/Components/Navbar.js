@@ -1,12 +1,14 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux";
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from '../Slices/userSlice'
+import UserProfile from '../Pages.js/UserProfile';
 
 const Navbar = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const user = useSelector((state) => state.user)
   
   function handleLogout(){
 
@@ -24,8 +26,8 @@ const Navbar = () => {
     <div className='border-2 w-[50%] mx-auto mb-[2%] absolute inset-x-0 bottom-0'>
         <div className='flex justify-evenly'>
             <div>Community</div>
-            <div>User</div>
-            <button onClick={handleLogout} className='border rounded-md bg-gray-500'>Logout</button >
+            <div>{user.id? <Link to={`/user/${user.id}`}>{user.username}</Link> : "Welcome"}</div>
+            {user.id? <button onClick={handleLogout} className='border rounded-md bg-gray-500'>Logout</button > : <Link to='/login' className='border rounded-md bg-gray-500'>Login/Signup</Link >}
         </div>
     </div>
   )

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+resources :palettes, only: [:create, :delete]
  
  
 #Signing in

@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import UserAction from './UserAction';
+import {currentPalette} from '../Slices/paletteSlice'
 
 const HomepagePalette = () => {
   
-    const [palette, setPalette] = useState()
-    
+    const dispatch = useDispatch()
     const [rgbOrHex, setRGBorHex] = useState(true)
-    
+    const palette = useSelector((state) => state.palette.palette)
+   
     
     function ColorToHex(color) {
       var hexadecimal = color.toString(16);
@@ -44,7 +46,7 @@ const HomepagePalette = () => {
         }
         fetch(`http://colormind.io/api/`, options)
           .then((r) => r.json())
-          .then((data) => setPalette(data))
+          .then((data) => dispatch(currentPalette(data)))
       }, [])
 
       function newPalette(){
@@ -56,16 +58,16 @@ const HomepagePalette = () => {
           }
           fetch(`http://colormind.io/api/`, options)
             .then((r) => r.json())
-            .then((data) => setPalette(data))
+            .then((data) => dispatch(currentPalette(data)))
       }
     
     if(palette){
-        let hexValue = convertPalettetoHex(palette.result)
+        let hexValue = convertPalettetoHex(palette)
         return (
             <div className='h-screen w-screen'>
                 <form className='h-[80%]'>
                     <div className='w-screen h-[100%] flex'>
-                        {palette.result.map((color, key) => {
+                        {palette.map((color, key) => {
                             return (
                                 //Color Tile
                                 <div key={key} className='w-[20%] flex flex-col'>

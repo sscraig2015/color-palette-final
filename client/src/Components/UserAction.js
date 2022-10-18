@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {updateUserPalettes} from '../Slices/userSlice'
 const UserAction = ({newPalette}) => {
 
-  const palette = useSelector((state) => state.palette.palette)
+  const palette = useSelector((state) => state.palette.paletteHome)
   const dispatch = useDispatch()
 
   function ColorToHex(color) {

@@ -7,7 +7,7 @@ const HomepagePalette = () => {
   
     const dispatch = useDispatch()
     const [rgbOrHex, setRGBorHex] = useState(true)
-    const palette = useSelector((state) => state.palette.palette)
+    const palette = useSelector((state) => state.palette.paletteHome)
    
     
     function ColorToHex(color) {

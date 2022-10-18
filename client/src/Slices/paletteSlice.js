@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    palette : null,
+    paletteHome : null,
+    paletteInfo : null,
 }
 
 const paletteSlice = createSlice({
@@ -9,10 +10,14 @@ const paletteSlice = createSlice({
     initialState,
     reducers: {
         currentPalette(state, action) {
-            state.palette = action.payload.result
+            state.paletteHome = action.payload.result
+        },
+        paletteInfo(state, action) {
+            state.paletteInfo = action.payload
         }
+
     }
 })
 
-export const { currentPalette } = paletteSlice.actions
+export const { currentPalette, paletteInfo } = paletteSlice.actions
 export default paletteSlice.reducer

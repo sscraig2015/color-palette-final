@@ -23,7 +23,7 @@ const UserProfile = () => {
                 </div>
                 <div className='flex flex-wrap gap-3 grow p-3'>
                     {palettes.map((palette) => {
-                        return <MultiplePalettes palette={palette.hexValues}/>
+                        return <MultiplePalettes palette={palette}/>
                     })}
                 </div>
             </div>

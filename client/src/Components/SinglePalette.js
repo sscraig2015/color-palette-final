@@ -8,10 +8,6 @@ const SinglePalette = () => {
     const palette = useSelector((state) => state.palette.paletteInfo)
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     fetch(`/palettes/`)
-    // }, [])
-
     function closePopUp(){
         dispatch(paletteInfo(null))
     }
@@ -25,7 +21,7 @@ const SinglePalette = () => {
             <div className='h-[30%] w-[50%] m-auto mt-[5%]'>
                 <button onClick={closePopUp} className='relative right-0 bg-slate-300 px-1 mb-1 ml-1'>X</button>
                 <div className='border-2 bg-white h-[100%] flex'>
-                    {palette.map((color) => {
+                    {palette.hexValues.map((color) => {
                         return <div className='w-[20%]' style={{background: color}}></div>
                     })}
                 </div>

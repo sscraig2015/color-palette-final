@@ -39,7 +39,7 @@ class PalettesController < ApplicationController
 
     def show
         @palette = Palette.find_by!(id: params[:id])
-        render json: @palette, include: ['favorites'], status: :ok
+        render json: @palette, status: :ok
     end
 
     def update_tag

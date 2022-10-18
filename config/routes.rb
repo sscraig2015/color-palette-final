@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 resources :palettes, only: [:create, :delete]
  
+get '/palette/:id', to: 'palettes#show'
  
 #Signing in
 post '/signin', to: 'sessions#create'

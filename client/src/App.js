@@ -9,6 +9,7 @@ import Navbar from './Components/Navbar';
 import Login from './Pages.js/Login';
 import Signup from './Pages.js/Signup';
 import UserProfile from './Pages.js/UserProfile';
+import Community from './Pages.js/Community';
 
 function App() {
 
@@ -32,6 +33,7 @@ return(
       <Route path='/login' element={<Login/>} />
       <Route path='/signup' element={<Signup/>} />
       <Route path='/user/:id' element={<UserProfile />} />
+      <Route path='/community' element={<Community />} />
     </Routes>
     <Navbar />
   </div>

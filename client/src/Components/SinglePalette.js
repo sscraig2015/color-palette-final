@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { paletteInfo } from '../Slices/paletteSlice'
+import { paletteInfo, addTag } from '../Slices/paletteSlice'
 
 
 const SinglePalette = () => {
     
     const palette = useSelector((state) => state.palette.paletteInfo)
     const dispatch = useDispatch()
+    const [tag, setTag] = useState()
 
     function closePopUp(){
         dispatch(paletteInfo(null))
@@ -14,6 +15,18 @@ const SinglePalette = () => {
 
     function newTag(e){
         e.preventDefault()
+
+        fetch(`/palettes/${palette.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                tags: tag,
+            })
+        })
+        .then((r) => r.json())
+        .then((data) => dispatch(addTag(data)))
     }
 
     return (
@@ -26,10 +39,15 @@ const SinglePalette = () => {
                     })}
                 </div>
                 <div className='bg-white'>
-                    <form onSubmit={newTag}>
-                        <input type='text' placeholder='Add tag....'></input>
+                    <form onSubmit={(e) => newTag(e)}>
+                        <input type='text' placeholder='Add tag....' value={tag} onChange={(e) => setTag(e.target.value)}></input>
                         <input type='submit'></input>
                     </form>
+                    <div className='flex justify-between'>
+                        {palette.tags.map((tag) => {
+                            return <span>{tag}</span>
+                        })}
+                    </div>
                 </div>
             </div>
         </div>

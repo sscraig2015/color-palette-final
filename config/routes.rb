@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-resources :palettes, only: [:create, :delete]
- 
-get '/palette/:id', to: 'palettes#show'
+resources :palettes, only: [:create, :show, :delete]
+patch '/palettes/:id', to: 'palettes#update_tag'
+
+get '/api/palettes/popular', to: 'palettes#popular'
  
 #Signing in
 post '/signin', to: 'sessions#create'

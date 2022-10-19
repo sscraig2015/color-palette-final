@@ -45,8 +45,8 @@ class PalettesController < ApplicationController
     def update_tag
         @currentTags = Palette.find_by(id: params[:id]).tags
         @updateTags = [*@currentTags, params[:tags].downcase]
-        tags = Palette.find_by(id: params[:id]).update!(tags: @updateTags)
-        render json: tags, status: :created
+        Palette.find_by(id: params[:id]).update!(tags: @updateTags)
+        render json: @updateTags, status: :created
 
     end
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from '../Slices/userSlice'
-import UserProfile from '../Pages.js/UserProfile';
+import UserProfile from '../Pages/UserProfile';
 
 const Navbar = () => {
 

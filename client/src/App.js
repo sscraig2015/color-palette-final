@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogin } from './Slices/userSlice';
 import HomepagePalette from './Components/HomepagePalette';
 import Navbar from './Components/Navbar';
-import Login from './Pages.js/Login';
-import Signup from './Pages.js/Signup';
-import UserProfile from './Pages.js/UserProfile';
-import Community from './Pages.js/Community';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import UserProfile from './Pages/UserProfile';
+import Community from './Pages/Community';
+import UploadImage from './Pages/UploadImage'
 
 function App() {
 
@@ -34,6 +35,7 @@ return(
       <Route path='/signup' element={<Signup/>} />
       <Route path='/user/:id' element={<UserProfile />} />
       <Route path='/community' element={<Community />} />
+      <Route path='/uploadImage' element={<UploadImage />} />
     </Routes>
     <Navbar />
   </div>

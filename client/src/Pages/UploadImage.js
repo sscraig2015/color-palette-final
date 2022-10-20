@@ -1,15 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {  useDispatch } from 'react-redux';
 import ImageUploading from 'react-images-uploading';
+import { uploadPalette } from '../Slices/paletteSlice';
+import UploadImagePalette from '../Components/UploadImagePalette';
+import  ColorThief  from 'colorthief'
 
-export function UploadImage({imageList, dragProps, isDragging}) {
-  const [images, setImages] = React.useState([]);
+
+export function UploadImage() {
+
+  const colorThief = new ColorThief()
+  const dispatch = useDispatch()
+
+  
+  const [images, setImages] = useState(null);
   const maxNumber = 1;
 
   const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
+
   };
+
+  useEffect(() => {
+
+    console.log('render')
+    const img = document.querySelector('img');
+
+      if(img){
+
+        if(img.complete) {
+
+          dispatch(uploadPalette(colorThief.getPalette(img,5)))
+        }  else {
+  
+            img.addEventListener('load', function() {
+              dispatch(uploadPalette(colorThief.getPalette(img, 5)))
+          });
+      }}
+    
+  }, [images])
+
 
   return (
     <div className='w-[50%] mx-auto mt-[5%]'>
@@ -22,14 +51,11 @@ export function UploadImage({imageList, dragProps, isDragging}) {
         {({
           imageList,
           onImageUpload,
-          onImageRemoveAll,
           onImageUpdate,
-          onImageRemove,
           isDragging,
           dragProps,
         }) => (
-          // write your building UI
-          
+
           
           <div className='border flex'>
             
@@ -44,7 +70,7 @@ export function UploadImage({imageList, dragProps, isDragging}) {
             <div className='m-[3%]'>
               {imageList.map((image, index) => (
                 <div className='flex flex-col' key={index} >
-                  <img src={image['data_url']} alt="" width="100" />
+                  <img src={image['data_url']} alt="" width="200" />
                   <div className='border'>
                     <button onClick={() => onImageUpdate(index)}>Update</button>
                   </div>
@@ -55,7 +81,9 @@ export function UploadImage({imageList, dragProps, isDragging}) {
           </div>
         )}
       </ImageUploading>
-      <div>hello</div>
+      <div>
+            {images? <UploadImagePalette/> : null}
+      </div>
     </div>
   );
 }

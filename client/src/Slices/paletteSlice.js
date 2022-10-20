@@ -4,6 +4,7 @@ const initialState = {
     paletteHome : null,
     paletteInfo : null,
     paletteCommunity : null,
+    paletteUpload: null,
 }
 
 const paletteSlice = createSlice({
@@ -21,10 +22,14 @@ const paletteSlice = createSlice({
         },
         communityPalettes(state, action) {
             state.paletteCommunity = action.payload
+        },
+        uploadPalette(state, action){
+            console.log('palette upload')
+            state.paletteUpload = action.payload
         }
 
     }
 })
 
-export const { currentPalette, paletteInfo, addTag, communityPalettes } = paletteSlice.actions
+export const { currentPalette, paletteInfo, addTag, communityPalettes, uploadPalette } = paletteSlice.actions
 export default paletteSlice.reducer

@@ -4,6 +4,7 @@ import ImageUploading from 'react-images-uploading';
 import { uploadPalette } from '../Slices/paletteSlice';
 import UploadImagePalette from '../Components/UploadImagePalette';
 import  ColorThief  from 'colorthief'
+import {Link} from 'react-router-dom'
 
 
 export function UploadImage() {
@@ -84,6 +85,7 @@ export function UploadImage() {
       <div>
             {images? <UploadImagePalette/> : null}
       </div>
+      <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
     </div>
   );
 }

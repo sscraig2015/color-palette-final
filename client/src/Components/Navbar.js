@@ -29,6 +29,7 @@ const Navbar = () => {
             <Link to='/community'>Community</Link>
             <div>{user.id? <Link to={`/user/${user.id}`}>{user.username}</Link> : "Welcome"}</div>
             {user.id? <button onClick={handleLogout} className='border rounded-md bg-gray-500'>Logout</button > : <Link to='/login' className='border rounded-md bg-gray-500'>Login/Signup</Link >}
+            <Link to='/uploadImage'>Upload Image</Link>
         </div>
     </div>
   )

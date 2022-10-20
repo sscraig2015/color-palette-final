@@ -4,6 +4,7 @@ import { communityPalettes } from '../Slices/paletteSlice'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
 import { Link } from 'react-router-dom'
+import Header from '../Components/Header'
 
 const Community = () => {
   
@@ -20,23 +21,17 @@ const Community = () => {
 
     if (palettes) {
         return (
-            <div className='h-screen mt-[2%]'>
-                <div className='flex h-[80%]'>
-                    <div className='border w-[20%]'>
-                        Side panel    
-                    </div>
-                    <div className='flex flex-col h-[100%] grow'>
-                        <div className='flex flex-wrap h-[90%] gap-2 p-3'>
-                            {palettes.map((palette) => {
-                                return <MultiplePalettes palette={palette}/>
-                            })}
-                            
-                        </div>
-                        <div>Hello</div>
-                    </div>
+            <div className='h-screen'>
+                <Header />
+                <div className='h-[75%] w-[87%] mx-auto text-center'>
+                            <div className='flex flex-wrap justify-evenly h-[100%] gap-2 p-2'>
+                                {palettes.map((palette) => {
+                                    return <MultiplePalettes palette={palette}/>
+                                })}
+                            </div>
+                    {popUp? <SinglePalette /> : null}
+                    <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
                 </div>
-                {popUp? <SinglePalette /> : null}
-                <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
             </div>
         )
                     }

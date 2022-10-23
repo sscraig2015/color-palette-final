@@ -19,8 +19,8 @@ const SinglePalette = () => {
             <div className='h-[30%] w-[50%] m-auto mt-[5%]'>
                 <button onClick={closePopUp} className='relative right-0 bg-slate-300 px-1 mb-1 ml-1'>X</button>
                 <div className='border-2 bg-white h-[100%] flex'>
-                    {palette.hexValues.map((color) => {
-                        return <div className='w-[20%]' style={{background: color}}></div>
+                    {palette.hexValues.map((color, index) => {
+                        return <div key={index} className='w-[20%]' style={{background: color}}></div>
                     })}
                 </div>
                 <div className='bg-white'>

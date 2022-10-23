@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
+resources :favorites
 resources :palettes, only: [:create, :show, :delete]
 patch '/palettes/:id', to: 'palettes#update_tag'
 
 get '/api/palettes/popular', to: 'palettes#popular'
+get '/api/tags/:tag', to: 'palettes#tag'
+
+get 'users/:id/:page', to: 'palettes#index'
  
 #Signing in
 post '/signin', to: 'sessions#create'

@@ -4,13 +4,13 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userLogin } from './Slices/userSlice';
-import HomepagePalette from './Components/HomepagePalette';
 import Navbar from './Components/Navbar';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import UserProfile from './Pages/UserProfile';
 import Community from './Pages/Community';
 import UploadImage from './Pages/UploadImage'
+import Homepage from './Pages/Homepage';
 
 
 function App() {
@@ -31,12 +31,12 @@ function App() {
 return(
   <div>
     <Routes>
-      <Route path='*' element={<HomepagePalette />} />
-      <Route path='/home' element={<HomepagePalette />} />
+      <Route path='*' element={<Homepage />} />
+      <Route path='/home' element={<Homepage />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/signup' element={<Signup/>} />
-      <Route path='/user/:id' element={<UserProfile />} />
-      <Route path='/community' element={<Community />} />
+      <Route path='/user/:username/:page' element={<UserProfile />} />
+      <Route path='/community/popular/:page' element={<Community />} />
       <Route path='/uploadImage' element={<UploadImage />} />
     </Routes>
     <Navbar />

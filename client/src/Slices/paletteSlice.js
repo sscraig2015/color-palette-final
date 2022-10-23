@@ -3,7 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     paletteHome : null,
     paletteInfo : null,
-    paletteCommunity : null,
+    currentPalettes: {
+        currentPage: null,
+        palettes: null,
+        totalPages: null,
+    },
     paletteUpload: null,
 }
 
@@ -20,8 +24,11 @@ const paletteSlice = createSlice({
         addTag(state,action) {
             state.paletteInfo.tags = action.payload
         },
-        communityPalettes(state, action) {
-            state.paletteCommunity = action.payload
+
+        currentPalettes(state,action) {
+            state.currentPalettes.currentPage = action.payload.currentPage
+            state.currentPalettes.palettes = action.payload.palettes
+            state.currentPalettes.totalPages = action.payload.totalPages
         },
         uploadPalette(state, action){
             console.log('palette upload')
@@ -31,5 +38,5 @@ const paletteSlice = createSlice({
     }
 })
 
-export const { currentPalette, paletteInfo, addTag, communityPalettes, uploadPalette } = paletteSlice.actions
+export const { currentPalette, paletteInfo, addTag, uploadPalette, currentPalettes } = paletteSlice.actions
 export default paletteSlice.reducer

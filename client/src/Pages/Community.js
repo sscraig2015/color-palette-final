@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { communityPalettes } from '../Slices/paletteSlice'
+import { currentPalettes } from '../Slices/paletteSlice'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
 import { Link } from 'react-router-dom'
@@ -9,14 +9,14 @@ import Header from '../Components/Header'
 const Community = () => {
   
     const dispatch = useDispatch()
-    const palettes = useSelector((state) => state.palette.paletteCommunity)
+    const palettes = useSelector((state) => state.palette.currentPalettes.palettes)
     const popUp = useSelector((state) => state.palette.paletteInfo)
  
 
     useEffect(() => {
         fetch('/api/palettes/popular')
         .then((r) => r.json())
-        .then((data) => dispatch(communityPalettes(data.palettes)))
+        .then((data) => dispatch(currentPalettes(data)))
     }, [])
 
     if (palettes) {
@@ -25,8 +25,8 @@ const Community = () => {
                 <Header />
                 <div className='h-[75%] w-[87%] mx-auto text-center'>
                             <div className='flex flex-wrap justify-evenly h-[100%] gap-2 p-2'>
-                                {palettes.map((palette) => {
-                                    return <MultiplePalettes palette={palette}/>
+                                {palettes.map((palette, index) => {
+                                    return <MultiplePalettes key={index} palette={palette}/>
                                 })}
                             </div>
                     {popUp? <SinglePalette /> : null}

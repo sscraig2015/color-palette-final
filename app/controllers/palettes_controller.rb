@@ -44,14 +44,16 @@ class PalettesController < ApplicationController
     end
 
     def update_tag
+        @tag = Tag.find_by(name: params[:tag])
+        @palette = Palette.find_by(id: params[:id])
 
-        tag = Tag.find_by(name: params[:tag])
-        if tag
-            @palette = Palette.find_by(id: params[:id])
-            @updateTags = @palette.tags << tag
-
-            @palette.update!(tags: @updateTags)
-            render json: @updateTags, status: :created
+        if @tag  
+            @updateTags = @palette.tags << @tag
+            render json: {tags: @updateTags}, status: :created
+        else
+            @newTag = Tag.create(name: params[:tag])
+            @updateTags = @palette.tags << @newTag
+            render json: {tags: @updateTags}, status: :created
         end
 
 

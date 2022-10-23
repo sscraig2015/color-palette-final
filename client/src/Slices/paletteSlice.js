@@ -19,11 +19,12 @@ const paletteSlice = createSlice({
             state.paletteHome = action.payload.result
         },
         paletteInfo(state, action) {
-            console.log(action)
+            
             state.paletteInfo = action.payload
         },
         addTag(state,action) {
-            state.paletteInfo = action.payload
+            console.log(action)
+           state.paletteInfo.tags = action.payload
         },
 
         currentPalettes(state,action) {

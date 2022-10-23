@@ -5,11 +5,28 @@ import { addTag } from '../Slices/paletteSlice'
 const TagForm = () => {
 
     const [tag, setTag] = useState()
+    const [errors, setErrors] = useState()
     const palette = useSelector((state) => state.palette.paletteInfo)
     const dispatch = useDispatch()
 
-    function newTag(e){
+    
+    function validateSearch(e){
         e.preventDefault()
+
+
+        for (const oldTag of palette.tags) {
+            if(oldTag.name === tag) {
+                return setErrors(true)
+            }
+        }
+
+        newTag()
+    }
+
+    function newTag(){
+
+
+
 
         fetch(`/palettes/${palette.id}`, {
             method: 'PATCH',
@@ -17,16 +34,17 @@ const TagForm = () => {
                 'Content-type' : 'application/json'
             },
             body: JSON.stringify({
-                tags: tag,
+                tag: tag,
             })
         })
         .then((r) => r.json())
-        .then((data) => dispatch(addTag(data)))
+        .then((data) => dispatch(addTag(data.tags)))
     }
   return (
-    <form onSubmit={(e) => newTag(e)}>
+    <form onSubmit={validateSearch}>
         <input type='text' placeholder='Add tag....' value={tag} onChange={(e) => setTag(e.target.value)}></input>
         <input type='submit'></input>
+        {errors? <span>That tag is already taken...</span> : null}
     </form>
   )
 }

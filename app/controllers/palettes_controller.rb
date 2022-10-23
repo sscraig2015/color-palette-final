@@ -19,15 +19,16 @@ class PalettesController < ApplicationController
             }, status: :ok
     end
 
-    def tag
-        @palettes = Palette.where("'#{params[:tag]}' = ANY (tags)").page(params[:page])
+    def serach_tag
+        
+        @palettes = Tag.where(name: params[:tag] )
             if @palettes.length === 0 
                 render json: { errors: "Could not find any palettes with tag: #{params[:tag]}" }, status: :not_found
             else 
                 render json: {
-                    palettes: @palettes,
-                    totalPages: Palette.where("'#{params[:tag]}' = ANY (tags)").page(params[:page]).total_pages,
-                    currentPage: Palette.where("'#{params[:tag]}' = ANY (tags)").page(params[:page]).current_page,
+                    palettes: @palettes[0].palettes.page(params[:page]),
+                    totalPages: @palettes[0].palettes.page(params[:page]).total_pages,
+                    currentPage: @palettes[0].palettes.page(params[:page]).current_page,
                 }, status: :ok
             end
     end
@@ -43,10 +44,16 @@ class PalettesController < ApplicationController
     end
 
     def update_tag
-        @currentTags = Palette.find_by(id: params[:id]).tags
-        @updateTags = [*@currentTags, params[:tags].downcase]
-        Palette.find_by(id: params[:id]).update!(tags: @updateTags)
-        render json: @updateTags, status: :created
+
+        tag = Tag.find_by(name: params[:tag])
+        if tag
+            @palette = Palette.find_by(id: params[:id])
+            @updateTags = @palette.tags << tag
+
+            @palette.update!(tags: @updateTags)
+            render json: @updateTags, status: :created
+        end
+
 
     end
 

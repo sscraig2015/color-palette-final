@@ -9,7 +9,7 @@ import Paginate from '../Components/Paginate'
 const UserProfile = () => {
   
     const palettes = useSelector((state) => state.palette.currentPalettes.palettes)
-    console.log(palettes)
+
     const popUp = useSelector((state) => state.palette.paletteInfo)
     const params = useParams()
     const dispatch = useDispatch()

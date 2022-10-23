@@ -7,8 +7,10 @@ import TagForm from './TagForm'
 const SinglePalette = () => {
     
     const palette = useSelector((state) => state.palette.paletteInfo)
+
     const user = useSelector((state) => state.user.id)
     const dispatch = useDispatch()
+
 
     function closePopUp(){
         dispatch(paletteInfo(null))
@@ -27,7 +29,7 @@ const SinglePalette = () => {
                     {user? <TagForm /> : null}
                     <div className='flex justify-between'>
                         {palette.tags.map((tag) => {
-                            return <span>{tag}</span>
+                            return <span>{tag.name}</span>
                         })}
                     </div>
                 </div>

@@ -15,7 +15,7 @@ const Header = () => {
     function fetchPalette(e){
         e.preventDefault()
   
-        fetch(`/api/tags/${search}`)
+        fetch(`/api/tags/${search.toLowerCase()}`)
         .then((r) => {
             if(r.ok){
                 r.json()

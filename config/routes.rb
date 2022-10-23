@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
+resources :tags
 resources :favorites
 resources :palettes, only: [:create, :show, :delete]
 patch '/palettes/:id', to: 'palettes#update_tag'
 
 get '/api/palettes/popular', to: 'palettes#popular'
-get '/api/tags/:tag', to: 'palettes#tag'
+get '/api/tags/:tag', to: 'palettes#search_tag'
 
 get 'users/:id/:page', to: 'palettes#index'
  

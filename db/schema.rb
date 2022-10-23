@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_20_184510) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_23_202404) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,7 +26,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_20_184510) do
   create_table "palettes", force: :cascade do |t|
     t.string "hexValues", array: true
     t.integer "user_id"
-    t.string "tags", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "palettes_tags", id: false, force: :cascade do |t|
+    t.bigint "palette_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["palette_id", "tag_id"], name: "index_palettes_tags_on_palette_id_and_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

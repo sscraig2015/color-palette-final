@@ -8,7 +8,7 @@ const Homepage = () => {
     const dispatch = useDispatch()
     const [rgbOrHex, setRGBorHex] = useState(true)
     const [savedColors, setSavedColors] = useState([])
-    console.log(savedColors)
+
     const palette = useSelector((state) => state.palette.paletteHome)
    
     

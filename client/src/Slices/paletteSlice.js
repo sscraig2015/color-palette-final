@@ -23,7 +23,7 @@ const paletteSlice = createSlice({
             state.paletteInfo = action.payload
         },
         addTag(state,action) {
-            console.log(action)
+  
            state.paletteInfo.tags = action.payload
         },
 

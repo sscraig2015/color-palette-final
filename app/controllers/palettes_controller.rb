@@ -19,7 +19,7 @@ class PalettesController < ApplicationController
             }, status: :ok
     end
 
-    def serach_tag
+    def search_tag
         
         @palettes = Tag.where(name: params[:tag] )
             if @palettes.length === 0 

@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
     def auth
         @currentUser = current_user
+        
         render json: @currentUser, status: :ok
     end
 

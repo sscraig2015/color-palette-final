@@ -13,7 +13,6 @@ const TagForm = () => {
     function validateSearch(e){
         e.preventDefault()
 
-
         for (const oldTag of palette.tags) {
             if(oldTag.name === tag) {
                 return setErrors(true)
@@ -24,9 +23,6 @@ const TagForm = () => {
     }
 
     function newTag(){
-
-
-
 
         fetch(`/palettes/${palette.id}`, {
             method: 'PATCH',
@@ -41,7 +37,7 @@ const TagForm = () => {
         .then((data) => dispatch(addTag(data.tags)))
     }
   return (
-    <form onSubmit={validateSearch}>
+    <form onSubmit={(e) => validateSearch(e)}>
         <input type='text' placeholder='Add tag....' value={tag} onChange={(e) => setTag(e.target.value)}></input>
         <input type='submit'></input>
         {errors? <span>That tag is already taken...</span> : null}

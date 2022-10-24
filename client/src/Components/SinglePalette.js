@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { paletteInfo } from '../Slices/paletteSlice'
 import TagForm from './TagForm'
@@ -6,14 +6,22 @@ import TagForm from './TagForm'
 
 const SinglePalette = () => {
     
-    const palette = useSelector((state) => state.palette.paletteInfo)
-
-    const user = useSelector((state) => state.user.id)
     const dispatch = useDispatch()
+    const palette = useSelector((state) => state.palette.paletteInfo)
+    const user = useSelector((state) => state.user)
+    const [selection, setSelection] = useState()
+    console.log(selection)
 
 
     function closePopUp(){
         dispatch(paletteInfo(null))
+    }
+
+    function saveCollection(e){
+        e.preventDefault()
+
+
+
     }
 
     return (
@@ -26,6 +34,17 @@ const SinglePalette = () => {
                     })}
                 </div>
                 <div className='bg-white'>
+                    <div>
+                        <form onSubmit={(e) => saveCollection(e)}>
+                            <label for='collections'>Save to collection:</label>
+                            <select id='collections' onChange={(e) => setSelection(e.target.value)}>
+                                {user.collections.map((collection) => {
+                                    return <option value={collection.title}>{collection.title}</option>
+                                })}
+                            </select>
+                            <input className='border bg-slate-300 rounded-lg' type='submit' value='save'></input>
+                        </form>
+                    </div>
                     {user? <TagForm /> : null}
                     <div className='flex justify-between'>
                         {palette.tags.map((tag) => {

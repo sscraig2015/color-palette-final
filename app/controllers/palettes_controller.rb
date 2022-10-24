@@ -3,7 +3,7 @@ class PalettesController < ApplicationController
     skip_before_action :authorize, only: [:index, :popular, :tag, :show]
 
     def index
-        @palette = User.find_by!(params_permit).palettes.order(:created_at).page(params[:page])
+        @palette = current_user.palettes.order(:created_at).page(params[:page])
         render json: {
             palettes: @palette,
             totalPages: User.find_by!(params_permit).palettes.page(params[:page]).total_pages,

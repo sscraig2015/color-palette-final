@@ -33,7 +33,7 @@ const paletteSlice = createSlice({
             state.currentPalettes.totalPages = action.payload.totalPages
         },
         uploadPalette(state, action){
-            console.log('palette upload')
+
             state.paletteUpload = action.payload
         }
 

@@ -10,7 +10,7 @@ import { createCollection } from '../Slices/userSlice'
 
 const UserProfile = () => {
   
-    const palettes = useSelector((state) => state.palette.currentPalettes.palettes)
+    const palettes = useSelector((state) => state.user.palettes)
     const popUp = useSelector((state) => state.palette.paletteInfo)
     const [newCollection, setNewCollection] = useState()
     const params = useParams()
@@ -20,13 +20,13 @@ const UserProfile = () => {
         dispatch(paletteInfo(null))
     }, [])
 
-    useEffect(() => {
-        fetch(`/users/${params.username}/${params.page}`).then((r) => {
-            if (r.ok) {
-              r.json().then((data) => dispatch(currentPalettes(data)));
-            }
-          })
-      }, []);
+    // useEffect(() => {
+    //     fetch(`/users/${params.username}/${params.page}`).then((r) => {
+    //         if (r.ok) {
+    //           r.json().then((data) => dispatch(currentPalettes(data)));
+    //         }
+    //       })
+    //   }, []);
 
       function addCollection(e) {
         e.preventDefault()

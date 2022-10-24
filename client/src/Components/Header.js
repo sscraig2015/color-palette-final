@@ -29,17 +29,12 @@ const Header = () => {
         })
     }
 
-    function handlePopular(){
-        navigate('/community/popular/1')
-        window.location.reload()
-
-    }
 
 
     return (
     <div className='flex justify-between w-[87%] mx-auto p-2 border'>
         <div className='w-[33%]'>
-            <Link to='/community/popular/all/1' onClick={(e) => handlePopular()}>Popular</Link>
+            <Link reloadDocument to='/community/popular/1' >Popular</Link>
 
         </div>
         <div className='w-[33%] text-center'>

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
 export const fetchUser = createAsyncThunk('user/fetchUser', () => {
     return fetch('backend')
@@ -33,11 +33,10 @@ const userSlice = createSlice({
             state.palettes.push(action.payload)    
         },
         updateCollection(state, action){
-            console.log(state)
-            const result = state.collections.filter(collection => collection.title !== action.payload.title)
-            
-            console.log(result)
-            state.collections = result << action.payload
+            const result = current(state).collections.filter(collection => collection.title !== action.payload.title)
+            result.push(action.payload)
+            state.collections = result
+
         }
     }
 })

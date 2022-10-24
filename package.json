@@ -2,7 +2,7 @@
     "name": "color-palette-final",
     "description": "Build scripts for Heroku",
     "engines": {
-      "node": ">= 16"
+      "node": "16.x"
     },
     "scripts": {
       "build": "npm install --prefix client && npm run build --prefix client",

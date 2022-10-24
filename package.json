@@ -2,12 +2,16 @@
     "name": "color-palette-final",
     "description": "Build scripts for Heroku",
     "engines": {
-      "node": "16.x"
+        "node": "16.x"
     },
     "scripts": {
-      "build": "npm install --prefix client && npm run build --prefix client",
-      "clean": "rm -rf public",
-      "deploy": "cp -a client/build/. public/",
-      "heroku-postbuild": "npm run clean && npm run build && npm run deploy"
+        "build": "npm install --prefix client && npm run build --prefix client",
+        "clean": "rm -rf public",
+        "deploy": "cp -a client/build/. public/",
+        "heroku-postbuild": "npm run clean && npm run build && npm run deploy"
+    },
+    "dependencies": {
+        "3.0.0": "^3.0.0",
+        "ruby": "^0.6.1"
     }
-  }
+}

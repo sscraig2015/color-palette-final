@@ -20,7 +20,7 @@ const SinglePalette = () => {
         dispatch(paletteInfo(null))
     }
 
-    function saveCollection(e){
+    function saveToCollection(e){
         e.preventDefault()
         
         for (const coll of user.collections) {  
@@ -44,7 +44,7 @@ const SinglePalette = () => {
         })
         .then((r) => r.json())
         .then((data) => dispatch(updateCollection(data)))
-
+        
     }
 
     return (
@@ -58,7 +58,7 @@ const SinglePalette = () => {
                 </div>
                 <div className='bg-white'>
                     <div>
-                        <form onSubmit={(e) => saveCollection(e)}>
+                        <form onSubmit={(e) => saveToCollection(e)}>
                             <label htmlFor='collections'>Save to collection:</label>
                             <select id='collections' onChange={(e) => setSelection(e.target.value)}>
                                 {user.collections.map((collection) => {

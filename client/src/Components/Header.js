@@ -1,6 +1,6 @@
 import React, { useState }from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import {  currentPalettes } from '../Slices/paletteSlice'
 import Paginate from './Paginate'
 
@@ -15,11 +15,12 @@ const Header = () => {
     function fetchPalette(e){
         e.preventDefault()
   
-        fetch(`/api/tags/${search.toLowerCase()}`)
+        fetch(`/api/palettes/${search.toLowerCase()}/1`)
         .then((r) => {
             if(r.ok){
                 r.json()
                 .then((data) => dispatch(currentPalettes(data)))
+                navigate(`/community/${search}/1`)
 
             } else {
                 r.json().then((data) => setErrors(data))
@@ -29,22 +30,17 @@ const Header = () => {
     }
 
     function handlePopular(){
+        navigate('/community/popular/1')
         window.location.reload()
 
     }
 
-    function handleRandomUser(){
-        fetch(`/user/${Math.floor(Math.random() * 99)}`)
-        .then((r) => r.json())
-        .then((data) => {
-            navigate(`/user/${data.username}/palettes/1`)
-        })
-    }
+
     return (
     <div className='flex justify-between w-[87%] mx-auto p-2 border'>
         <div className='w-[33%]'>
-            <Link to='/community/popular/all/1' onClick={handlePopular}>Popular</Link>
-            <button onClick={handleRandomUser}>Random User</button>
+            <Link to='/community/popular/all/1' onClick={(e) => handlePopular()}>Popular</Link>
+
         </div>
         <div className='w-[33%] text-center'>
             <Paginate />

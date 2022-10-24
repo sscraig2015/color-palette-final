@@ -11,28 +11,6 @@ class PalettesController < ApplicationController
             }, status: :ok
     end
 
-    def popular
-        render json: {
-            palettes: Palette.all.order(:created_at).page(params[:page]),
-            totalPages: Palette.all.page(params[:page]).total_pages,
-            currentPage: Palette.all.page(params[:page]).current_page,
-            }, status: :ok
-    end
-
-    def search_tag
-        
-        @palettes = Tag.where(name: params[:tag] )
-            if @palettes.length === 0 
-                render json: { errors: "Could not find any palettes with tag: #{params[:tag]}" }, status: :not_found
-            else 
-                render json: {
-                    palettes: @palettes[0].palettes.page(params[:page]),
-                    totalPages: @palettes[0].palettes.page(params[:page]).total_pages,
-                    currentPage: @palettes[0].palettes.page(params[:page]).current_page,
-                }, status: :ok
-            end
-    end
-
     def create
         @palette = @current_user.palettes.create!(params_permit)
         render json: @palette, status: :created
@@ -43,7 +21,7 @@ class PalettesController < ApplicationController
         render json: @palette, status: :ok
     end
 
-    def update_tag
+    def update
         @tag = Tag.find_by(name: params[:tag])
         @palette = Palette.find_by(id: params[:id])
 
@@ -56,7 +34,30 @@ class PalettesController < ApplicationController
             render json: {tags: @updateTags}, status: :created
         end
 
+    end
 
+
+    def popular
+        render json: {
+            palettes: Palette.all.order(:created_at).page(params[:page]),
+            totalPages: Palette.all.page(params[:page]).total_pages,
+            currentPage: Palette.all.page(params[:page]).current_page,
+            }, status: :ok
+    end
+
+    def search_tag
+        
+        @palettes = Tag.where(name: params[:tag] )
+        
+            if @palettes.length === 0 
+                render json: { errors: "Could not find any palettes with tag: #{params[:tag]}" }, status: :not_found
+            else 
+                render json: {
+                    palettes: @palettes[0].palettes.page(params[:page]),
+                    totalPages: @palettes[0].palettes.page(params[:page]).total_pages,
+                    currentPage: @palettes[0].palettes.page(params[:page]).current_page,
+                }, status: :ok
+            end
     end
 
     private

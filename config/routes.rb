@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
-  resources :collections
-resources :tags
-resources :favorites
-resources :palettes, only: [:create, :show, :delete]
-patch '/palettes/:id', to: 'palettes#update_tag'
+resources :collections, only: [:create, :update]
+resources :palettes, only: [:create, :show, :delete, :update]
+#Find user palettes
+get 'users/:username/:page', to: 'palettes#index'
 
-get '/api/palettes/popular', to: 'palettes#popular'
-get '/api/tags/:tag', to: 'palettes#search_tag'
+#Find community palettes
+get '/api/palettes/popular/:page', to: 'palettes#popular'
+get '/api/palettes/:tag/:page', to: 'palettes#search_tag'
 
-get 'users/:id/:page', to: 'palettes#index'
- 
+
 #Signing in
 post '/signin', to: 'sessions#create'
 get '/me', to: 'users#auth'

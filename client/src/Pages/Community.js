@@ -3,18 +3,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { currentPalettes } from '../Slices/paletteSlice'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Header from '../Components/Header'
 
 const Community = () => {
   
     const dispatch = useDispatch()
+    const params = useParams()
     const palettes = useSelector((state) => state.palette.currentPalettes.palettes)
     const popUp = useSelector((state) => state.palette.paletteInfo)
  
 
     useEffect(() => {
-        fetch('/api/palettes/popular')
+        fetch(`/api/palettes/${params.category}/${params.page}`)
         .then((r) => r.json())
         .then((data) => dispatch(currentPalettes(data)))
     }, [])

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  useDispatch } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import ImageUploading from 'react-images-uploading';
 import { uploadPalette } from '../Slices/paletteSlice';
 import UploadImagePalette from '../Components/UploadImagePalette';
@@ -11,8 +11,7 @@ export function UploadImage() {
 
   const colorThief = new ColorThief()
   const dispatch = useDispatch()
-
-  
+  const palette = useSelector((state) => state.palette.paletteUpload)
   const [images, setImages] = useState(null);
   const maxNumber = 1;
 
@@ -21,18 +20,27 @@ export function UploadImage() {
 
   };
 
+  function ColorToHex(color) {
+    var hexadecimal = color.toString(16);
+    return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;
+  }
+  
+  function ConvertRGBtoHex(red, green, blue) {
+    return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
+  }
+
+  function convertPalettetoHex(givenPalette){
+    return givenPalette.map((colorRGB) => {
+      return ConvertRGBtoHex(colorRGB[0], colorRGB[1], colorRGB[2])
+    })
+  }
+
   useEffect(() => {
-
-    console.log('render')
     const img = document.querySelector('img');
-
       if(img){
-
         if(img.complete) {
-
           dispatch(uploadPalette(colorThief.getPalette(img,5)))
         }  else {
-  
             img.addEventListener('load', function() {
               dispatch(uploadPalette(colorThief.getPalette(img, 5)))
           });
@@ -40,6 +48,22 @@ export function UploadImage() {
     
   }, [images])
 
+  function savePalette(){
+    const hexArray = convertPalettetoHex(palette)
+
+    fetch('/palettes', {
+      method: "POST",
+      headers: {
+        'Content-type' : 'application/json'
+      },
+      body: JSON.stringify({
+        hexValues: hexArray,
+        tags: [],
+
+      })
+    })
+    .then((r) => r.json()).then((data) => console.log(data))
+  }
 
   return (
     <div className='w-[50%] mx-auto mt-[5%]'>
@@ -85,7 +109,11 @@ export function UploadImage() {
       <div>
             {images? <UploadImagePalette/> : null}
       </div>
-      <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
+      <div>
+        <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
+        <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-10 w-80'>Save Palette</button>
+      </div>
+      
     </div>
   );
 }

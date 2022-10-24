@@ -36,7 +36,7 @@ return(
       <Route path='/login' element={<Login/>} />
       <Route path='/signup' element={<Signup/>} />
       <Route path='/user/:username/:page' element={<UserProfile />} />
-      <Route path='/community/popular/:page' element={<Community />} />
+      <Route path='/community/:category/:page' element={<Community />} />
       <Route path='/uploadImage' element={<UploadImage />} />
     </Routes>
     <Navbar />

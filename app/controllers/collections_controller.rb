@@ -1,11 +1,9 @@
 class CollectionsController < ApplicationController
 
     def create
-        #front end checks if palette exists in collection
-        #if its here then we can create the collection
-        
-        newColl = current_user.collections.create!(permit_params)
-        render json: newColl, status: :created
+
+        @newColl = current_user.collections.create!(permit_params)
+        render json: @newColl, status: :created
     end
 
     def update

@@ -37,9 +37,12 @@ const userSlice = createSlice({
             result.push(action.payload)
             state.collections = result
 
+        },
+        createCollection(state, action) {
+            state.collections.push(action.payload)
         }
     }
 })
 
-export const { userLogin, userLogout, updateUserPalettes, updateCollection } = userSlice.actions
+export const { userLogin, userLogout, updateUserPalettes, updateCollection, createCollection } = userSlice.actions
 export default userSlice.reducer

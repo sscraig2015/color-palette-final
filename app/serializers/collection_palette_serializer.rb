@@ -1,3 +1,3 @@
 class CollectionPaletteSerializer < ActiveModel::Serializer
-  attributes :palettes
+  attributes :title, :palettes
 end

@@ -18,7 +18,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         userLogin(state, action) {
-            console.log(action.payload.collections)
+            
             state.id = action.payload.id
             state.username = action.payload.username
             state.palettes = action.payload.palettes
@@ -31,9 +31,16 @@ const userSlice = createSlice({
         },
         updateUserPalettes(state, action) {
             state.palettes.push(action.payload)    
+        },
+        updateCollection(state, action){
+            console.log(state)
+            const result = state.collections.filter(collection => collection.title !== action.payload.title)
+            
+            console.log(result)
+            state.collections = result << action.payload
         }
     }
 })
 
-export const { userLogin, userLogout, updateUserPalettes } = userSlice.actions
+export const { userLogin, userLogout, updateUserPalettes, updateCollection } = userSlice.actions
 export default userSlice.reducer

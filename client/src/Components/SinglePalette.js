@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { paletteInfo } from '../Slices/paletteSlice'
+import { updateCollection } from '../Slices/userSlice'
 import TagForm from './TagForm'
 
 
@@ -10,7 +11,9 @@ const SinglePalette = () => {
     const palette = useSelector((state) => state.palette.paletteInfo)
     const user = useSelector((state) => state.user)
     const [selection, setSelection] = useState()
-    console.log(selection)
+    const [errors, setErrors] = useState(false)
+    console.log(errors)
+
 
 
     function closePopUp(){
@@ -19,8 +22,28 @@ const SinglePalette = () => {
 
     function saveCollection(e){
         e.preventDefault()
+        
+        for (const coll of user.collections) {  
+            if (coll.title === selection) {
+                for (const collPalette of coll.palettes) {
+                    if(palette.id === collPalette.id) {
+                        return setErrors(true)
+                    }
+                }
+            }
+        }
 
-
+        fetch(`/collections/${selection}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-type' : 'application/json'
+            },
+            body: JSON.stringify({
+                palette_id: palette.id,
+            })
+        })
+        .then((r) => r.json())
+        .then((data) => dispatch(updateCollection(data)))
 
     }
 
@@ -36,7 +59,7 @@ const SinglePalette = () => {
                 <div className='bg-white'>
                     <div>
                         <form onSubmit={(e) => saveCollection(e)}>
-                            <label for='collections'>Save to collection:</label>
+                            <label htmlFor='collections'>Save to collection:</label>
                             <select id='collections' onChange={(e) => setSelection(e.target.value)}>
                                 {user.collections.map((collection) => {
                                     return <option value={collection.title}>{collection.title}</option>
@@ -44,6 +67,7 @@ const SinglePalette = () => {
                             </select>
                             <input className='border bg-slate-300 rounded-lg' type='submit' value='save'></input>
                         </form>
+                        {errors? <div>Collection already saved...</div> : null}
                     </div>
                     {user? <TagForm /> : null}
                     <div className='flex justify-between'>

@@ -12,7 +12,7 @@ const SinglePalette = () => {
     const user = useSelector((state) => state.user)
     const [selection, setSelection] = useState()
     const [errors, setErrors] = useState(false)
-
+    console.log(palette)
     
     function closePopUp(){
         dispatch(paletteInfo(null))

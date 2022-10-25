@@ -44,7 +44,7 @@ class PalettesController < ApplicationController
             if @palettes.length === 0 
                 render json: { errors: "Could not find any palettes with tag: #{params[:tag]}" }, status: :not_found
             else 
-                render json: {palettes: @palettes[0].palettes}, status: :ok
+                render json: @palettes[0].palettes, status: :ok
             end
     end
 

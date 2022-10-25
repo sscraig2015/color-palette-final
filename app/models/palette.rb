@@ -1,6 +1,4 @@
-class Palette < ApplicationRecord
-    paginates_per 12
-
+class Palette < ApplicationRecord 
     belongs_to :user
     
     has_and_belongs_to_many :tags

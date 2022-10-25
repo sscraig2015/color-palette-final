@@ -35,6 +35,7 @@ const UserProfile = () => {
         const collectionTitle = e.target.innerHTML
 
         user.collections.map((collection) => {
+
             if (collection.title === collectionTitle) {
                 return dispatch(currentPalettes(collection.palettes))
             }
@@ -80,7 +81,7 @@ const UserProfile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-wrap gap-3 grow p-3'>
+                    <div className='flex flex-wrap justify-start gap-3 grow p-3'>
                         {palettes[params.page - 1].map((palette, key ) => {
                             return <MultiplePalettes key={key} palette={palette}/>
                         })}

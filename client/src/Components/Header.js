@@ -18,7 +18,7 @@ const Header = () => {
     function fetchPalette(e){
         e.preventDefault()
   
-        fetch(`/api/palettes/${search.toLowerCase()}/1`)
+        fetch(`/api/palettes/${search.toLowerCase()}`)
         .then((r) => {
             if(r.ok){
                 r.json()

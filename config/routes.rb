@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
 resources :collections, only: [:create, :update]
 resources :palettes, only: [:create, :show, :delete, :update]
-#Find user palettes
-get 'users/:username/:page', to: 'palettes#index'
+
 
 #Find community palettes
-get '/api/palettes/popular/:page', to: 'palettes#popular'
-get '/api/palettes/:tag/:page', to: 'palettes#search_tag'
+get '/api/palettes/popular/', to: 'palettes#popular'
+get '/api/palettes/:tag/', to: 'palettes#search_tag'
 
 
 #Signing in

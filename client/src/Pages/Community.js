@@ -15,7 +15,7 @@ const Community = () => {
  
 
     useEffect(() => {
-        fetch(`/api/palettes/${params.category}/${params.page}`)
+        fetch(`/api/palettes/${params.category}`)
         .then((r) => r.json())
         .then((data) => dispatch(currentPalettes(data)))
     }, [])

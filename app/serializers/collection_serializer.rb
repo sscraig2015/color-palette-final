@@ -1,4 +1,5 @@
 class CollectionSerializer < ActiveModel::Serializer
-  attributes :id, :title, :palettes
-  
+  attributes :id, :title
+
+  has_many :palettes, serializer: TagPaletteSerializerSerializer
 end

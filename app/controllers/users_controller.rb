@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     def auth
         @currentUser = current_user
         
-        render json: @currentUser, status: :ok
+        render json: @currentUser, include: ['collections', 'collections.palettes'], status: :ok
     end
 
     def show

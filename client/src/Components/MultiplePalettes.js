@@ -7,17 +7,12 @@ const MultiplePalettes = ({palette}) => {
 
     const dispatch = useDispatch()
 
-  
-    function handleClick(palette){
-
-        fetch(`/palettes/${palette.id}`)
-        .then((r) => r.json())
-        .then((data) => dispatch(paletteInfo(data)))
-        
+    function selectPalette(palette){
+        dispatch(paletteInfo(palette))
     }
 
     return (
-    <div onClick={() => handleClick(palette)}  className='h-[20%] flex w-[30%] hover:scale-[120%] hover:cursor-pointer hover:border-2'>
+    <div onClick={() => selectPalette(palette)}  className='h-[20%] flex w-[30%] hover:scale-[120%] hover:cursor-pointer hover:border-2'>
        {palette.hexValues.map((color, index) => {
             return <div key={index} className='w-[20%]' style={{background: color}}></div>
         })}

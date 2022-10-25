@@ -3,24 +3,44 @@ import { Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
-import {  paletteInfo  } from '../Slices/paletteSlice'
+import {  currentPalettes, paletteInfo  } from '../Slices/paletteSlice'
 import Paginate from '../Components/Paginate'
 import { createCollection } from '../Slices/userSlice'
+
 
 
 const UserProfile = () => {
     const params = useParams()
     const dispatch = useDispatch()  
 
-    let palettes = useSelector(((state) => state.user.palettes))
     
+    const user = useSelector(((state) => state.user))
+    const palettes = useSelector((state) => state.palette.currentPalettes)
+
     const popUp = useSelector((state) => state.palette.paletteInfo)
     const [newCollection, setNewCollection] = useState()
-    
-    useEffect(() => {
-        dispatch(paletteInfo(null))
-    }, [])
+   
+   
+   useEffect( () => {
 
+        if(user.id){
+            dispatch(currentPalettes(user.palettes))
+        }
+
+    }, [user])
+  
+    
+    function updatePalettes(e){
+        e.preventDefault()
+        const collectionTitle = e.target.innerHTML
+
+        user.collections.map((collection) => {
+            if (collection.title === collectionTitle) {
+                return dispatch(currentPalettes(collection.palettes))
+            }
+        })
+        
+    }
 
       function addCollection(e) {
         e.preventDefault()
@@ -46,10 +66,18 @@ const UserProfile = () => {
                         Side panel
                         <div>
                             <form onSubmit={(e) => addCollection(e)}>
-                                <label>Creat collection:</label>
+                                <label>Create collection:</label>
                                 <input className='border' type='text' value={newCollection} onChange={(e) => setNewCollection(e.target.value)}></input>
                                 <input type='submit'></input>
                             </form>
+                            <div>
+                            <div id='collections'>
+                                <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
+                                {user.collections.map((collection, index) => {
+                                    return <div key={index} className='cursor-pointer' onClick={updatePalettes}>{collection.title}</div>
+                                })}
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <div className='flex flex-wrap gap-3 grow p-3'>
@@ -60,7 +88,7 @@ const UserProfile = () => {
                 </div>
                 {popUp? <SinglePalette /> : null}
                 <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
-                <Paginate palettes={palettes} />
+                <Paginate palettes={user.palettes} />
             </div>
         )        
     }

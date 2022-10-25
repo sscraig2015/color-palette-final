@@ -29,8 +29,9 @@ const paletteSlice = createSlice({
         },
 
         currentPalettes(state,action) {
-            console.log(action)
-            state.currentPalettes = chunk(action.payload, 12)
+            console.log(action.payload)
+            const flatArray = action.payload.flat()
+            state.currentPalettes = chunk(flatArray, 12)
         },
         uploadPalette(state, action){
 

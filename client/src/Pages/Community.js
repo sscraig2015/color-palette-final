@@ -11,7 +11,6 @@ const Community = () => {
     const dispatch = useDispatch()
     const params = useParams()
     const palettes = useSelector((state) => state.palette.currentPalettes)
-    console.log(palettes, 'fetch palettes')
     const popUp = useSelector((state) => state.palette.paletteInfo)
  
 
@@ -22,7 +21,7 @@ const Community = () => {
     }, [])
 
     if (palettes) {
-        console.log(palettes)
+
         return (
             <div className='h-screen'>
                 <Header />

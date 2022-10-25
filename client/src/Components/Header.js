@@ -8,6 +8,8 @@ const Header = () => {
   
     const [search, setSearch] = useState()
     const [errors, setErrors] = useState(null)
+
+
     const palettes = useSelector((state) => state.palette.currentPalettes)
     const dispatch = useDispatch()
 
@@ -29,9 +31,6 @@ const Header = () => {
             }
         })
     }
-
-
-
 
         return (
         <div className='flex justify-between w-[87%] mx-auto p-2 border'>

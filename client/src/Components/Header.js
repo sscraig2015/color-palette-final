@@ -1,6 +1,6 @@
 import React, { useState }from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {  currentPalettes } from '../Slices/paletteSlice'
 import Paginate from './Paginate'
 
@@ -8,6 +8,7 @@ const Header = () => {
   
     const [search, setSearch] = useState()
     const [errors, setErrors] = useState(null)
+    const palettes = useSelector((state) => state.palette.currentPalettes)
     const dispatch = useDispatch()
 
     let navigate = useNavigate()
@@ -31,24 +32,27 @@ const Header = () => {
 
 
 
-    return (
-    <div className='flex justify-between w-[87%] mx-auto p-2 border'>
-        <div className='w-[33%]'>
-            <Link reloadDocument to='/community/popular/1' >Popular</Link>
 
+        return (
+        <div className='flex justify-between w-[87%] mx-auto p-2 border'>
+            <div className='w-[33%]'>
+                <Link reloadDocument to='/community/popular/1' >Popular</Link>
+
+            </div>
+            <div className='w-[33%] text-center'>
+                <Paginate palettes={palettes}/>
+            </div>
+            <div className='w-[33%]'>
+                <form onSubmit={fetchPalette} className='tagSearch'>
+                    <label>search tags: </label>
+                    <input className='border' value={search} onChange={((e) => setSearch(e.target.value))}></input>
+                </form>
+                {errors? <div>{errors.errors}</div> : null}
+            </div>
         </div>
-        <div className='w-[33%] text-center'>
-            <Paginate />
-        </div>
-        <div className='w-[33%]'>
-            <form onSubmit={fetchPalette} className='tagSearch'>
-                <label>search tags: </label>
-                <input className='border' value={search} onChange={((e) => setSearch(e.target.value))}></input>
-            </form>
-            {errors? <div>{errors.errors}</div> : null}
-        </div>
-    </div>
-  )
+        )        
+
+
 }
 
 export default Header

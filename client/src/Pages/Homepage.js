@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import UserAction from '../Components/UserAction';
-import {currentPalette} from '../Slices/paletteSlice'
+import { homePalette } from '../Slices/paletteSlice'
 
 const Homepage = () => {
   
@@ -49,7 +49,7 @@ const Homepage = () => {
         }
         fetch(`http://colormind.io/api/`, options)
           .then((r) => r.json())
-          .then((data) => dispatch(currentPalette(data)))
+          .then((data) => dispatch(homePalette(data)))
       }, [])
 
   //Locks color in
@@ -97,7 +97,7 @@ const Homepage = () => {
           }
           fetch(`http://colormind.io/api/`, options)
             .then((r) => r.json())
-            .then((data) => dispatch(currentPalette(data)))
+            .then((data) => dispatch(homePalette(data)))
             setSavedColors([])
             resetForm()
     }

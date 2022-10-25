@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+
 const initialState = {
     paletteHome : null,
     paletteInfo : null,
-    currentPalettes: {
-        currentPage: null,
-        palettes: null,
-        totalPages: null,
-    },
+    currentPalettes: null,
     paletteUpload: null,
 }
 
@@ -15,7 +16,7 @@ const paletteSlice = createSlice({
     name: 'palette',
     initialState,
     reducers: {
-        currentPalette(state, action) {
+        homePalette(state, action) {
             state.paletteHome = action.payload.result
         },
         paletteInfo(state, action) {
@@ -28,9 +29,8 @@ const paletteSlice = createSlice({
         },
 
         currentPalettes(state,action) {
-            state.currentPalettes.currentPage = action.payload.currentPage
-            state.currentPalettes.palettes = action.payload.palettes
-            state.currentPalettes.totalPages = action.payload.totalPages
+            console.log(action)
+            state.currentPalettes = chunk(action.payload, 12)
         },
         uploadPalette(state, action){
 
@@ -40,5 +40,5 @@ const paletteSlice = createSlice({
     }
 })
 
-export const { currentPalette, paletteInfo, addTag, uploadPalette, currentPalettes } = paletteSlice.actions
+export const { homePalette, paletteInfo, addTag, uploadPalette, currentPalettes } = paletteSlice.actions
 export default paletteSlice.reducer

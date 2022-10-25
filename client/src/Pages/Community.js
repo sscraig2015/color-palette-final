@@ -10,7 +10,8 @@ const Community = () => {
   
     const dispatch = useDispatch()
     const params = useParams()
-    const palettes = useSelector((state) => state.palette.currentPalettes.palettes)
+    const palettes = useSelector((state) => state.palette.currentPalettes)
+    console.log(palettes, 'fetch palettes')
     const popUp = useSelector((state) => state.palette.paletteInfo)
  
 
@@ -21,12 +22,13 @@ const Community = () => {
     }, [])
 
     if (palettes) {
+        console.log(palettes)
         return (
             <div className='h-screen'>
                 <Header />
                 <div className='h-[75%] w-[87%] mx-auto text-center'>
                             <div className='flex flex-wrap justify-evenly h-[100%] gap-2 p-2'>
-                                {palettes.map((palette, index) => {
+                                {palettes[parseInt(params.page) - 1].map((palette, index) => {
                                     return <MultiplePalettes key={index} palette={palette}/>
                                 })}
                             </div>

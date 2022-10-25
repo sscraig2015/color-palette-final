@@ -3,30 +3,24 @@ import { Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
-import { currentPalettes, paletteInfo  } from '../Slices/paletteSlice'
+import {  paletteInfo  } from '../Slices/paletteSlice'
 import Paginate from '../Components/Paginate'
 import { createCollection } from '../Slices/userSlice'
 
 
 const UserProfile = () => {
-  
-    const palettes = useSelector((state) => state.user.palettes)
+    const params = useParams()
+    const dispatch = useDispatch()  
+
+    let palettes = useSelector(((state) => state.user.palettes))
+    
     const popUp = useSelector((state) => state.palette.paletteInfo)
     const [newCollection, setNewCollection] = useState()
-    const params = useParams()
-    const dispatch = useDispatch()
-
+    
     useEffect(() => {
         dispatch(paletteInfo(null))
     }, [])
 
-    // useEffect(() => {
-    //     fetch(`/users/${params.username}/${params.page}`).then((r) => {
-    //         if (r.ok) {
-    //           r.json().then((data) => dispatch(currentPalettes(data)));
-    //         }
-    //       })
-    //   }, []);
 
       function addCollection(e) {
         e.preventDefault()
@@ -59,14 +53,14 @@ const UserProfile = () => {
                         </div>
                     </div>
                     <div className='flex flex-wrap gap-3 grow p-3'>
-                        {palettes.map((palette, key ) => {
+                        {palettes[params.page - 1].map((palette, key ) => {
                             return <MultiplePalettes key={key} palette={palette}/>
                         })}
                     </div>
                 </div>
                 {popUp? <SinglePalette /> : null}
                 <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
-                <Paginate />
+                <Paginate palettes={palettes} />
             </div>
         )        
     }

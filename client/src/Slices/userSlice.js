@@ -1,10 +1,9 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
-export const fetchUser = createAsyncThunk('user/fetchUser', () => {
-    return fetch('backend')
-        .then((r) => r.json())
-        .then((data) => data.user)
-})
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
 
 const initialState = {
     id: null,
@@ -18,10 +17,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         userLogin(state, action) {
-            
             state.id = action.payload.id
             state.username = action.payload.username
-            state.palettes = action.payload.palettes
+            state.palettes = chunk(action.payload.palettes, 12)
             state.collections = action.payload.collections
         },
         userLogout(state, action) {

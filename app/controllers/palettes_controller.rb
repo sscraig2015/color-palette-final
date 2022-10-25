@@ -3,12 +3,8 @@ class PalettesController < ApplicationController
     skip_before_action :authorize, only: [:index, :popular, :tag, :show]
 
     def index
-        @palette = current_user.palettes.order(:created_at).page(params[:page])
-        render json: {
-            palettes: @palette,
-            totalPages: User.find_by!(params_permit).palettes.page(params[:page]).total_pages,
-            currentPage: User.find_by!(params_permit).palettes.page(params[:page]).current_page,
-            }, status: :ok
+        @palette = current_user.palettes.order(:created_at)
+        render json: @palette, status: :ok
     end
 
     def create
@@ -38,11 +34,7 @@ class PalettesController < ApplicationController
 
 
     def popular
-        render json: {
-            palettes: Palette.all.order(:created_at).page(params[:page]),
-            totalPages: Palette.all.page(params[:page]).total_pages,
-            currentPage: Palette.all.page(params[:page]).current_page,
-            }, status: :ok
+        render json: Palette.all.order(:created_at), status: :ok
     end
 
     def search_tag
@@ -52,11 +44,7 @@ class PalettesController < ApplicationController
             if @palettes.length === 0 
                 render json: { errors: "Could not find any palettes with tag: #{params[:tag]}" }, status: :not_found
             else 
-                render json: {
-                    palettes: @palettes[0].palettes.page(params[:page]),
-                    totalPages: @palettes[0].palettes.page(params[:page]).total_pages,
-                    currentPage: @palettes[0].palettes.page(params[:page]).current_page,
-                }, status: :ok
+                render json: {palettes: @palettes[0].palettes}, status: :ok
             end
     end
 

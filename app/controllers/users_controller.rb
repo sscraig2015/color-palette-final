@@ -3,14 +3,12 @@ class UsersController < ApplicationController
     skip_before_action :authorize, only: [:create, :show, :index]
 
     def create
-        
         @user = User.create!(user_params)
         render json: @user, status: :created
     end
 
     def auth
         @currentUser = current_user
-        
         render json: @currentUser, include: [['collections', 'collections.palettes'], ['palettes', 'palettes.tags']],  status: :ok
     end
 

@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
-import {  currentPalettes, paletteInfo  } from '../Slices/paletteSlice'
+import {  currentPalettes  } from '../Slices/paletteSlice'
 import Paginate from '../Components/Paginate'
 import { createCollection } from '../Slices/userSlice'
 
 
 
 const UserProfile = () => {
-    const params = useParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const page = searchParams.get('page')
+
     const dispatch = useDispatch()  
 
     
@@ -82,7 +84,7 @@ const UserProfile = () => {
                         </div>
                     </div>
                     <div className='flex flex-wrap justify-start gap-3 grow p-3'>
-                        {palettes[params.page - 1].map((palette, key ) => {
+                        {palettes[page - 1].map((palette, key ) => {
                             return <MultiplePalettes key={key} palette={palette}/>
                         })}
                     </div>

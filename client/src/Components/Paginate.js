@@ -1,16 +1,17 @@
 import React from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useSearchParams } from 'react-router-dom'
 
 const Paginate = ({palettes}) => {
     
-    const params = useParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const page = searchParams.get('page')
 
     return (
-        <div className='paginateContainer'>
-          <div className='paginateInfo'>
-          {(params.page === `1`) ? null : <Link to={`../${parseInt(params.page) - 1}`} relative='path'><span>{"<"}</span></Link> }
-            <span>Page: {params.page}</span>
-          {(parseInt(params.page) === palettes.length) ?  null : <Link to={`../${parseInt(params.page) + 1}`} relative='path'><span>{">"}</span></Link> }
+        <div >
+          <div className='flex border'>
+            {(page === `1`) ? null : <div onClick={(e) => setSearchParams({page : parseInt(page) - 1})}>{"<"}</div> }
+              <span>Page: {page}</span>
+            {(parseInt(page) === palettes.length) ?  null : <div onClick={(e) => setSearchParams({page : parseInt(page) + 1})}>{">"}</div> }
           </div>
         </div>
       )

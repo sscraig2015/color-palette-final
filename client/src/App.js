@@ -35,7 +35,7 @@ return(
       <Route path='/home' element={<Homepage />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/signup' element={<Signup/>} />
-      <Route path='/user/:username/:page' element={<UserProfile />} />
+      <Route path='/users/:id/' element={<UserProfile />} />
       <Route path='/community/:category/:page' element={<Community />} />
       <Route path='/uploadImage' element={<UploadImage />} />
     </Routes>

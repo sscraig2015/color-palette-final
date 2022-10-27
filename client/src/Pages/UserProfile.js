@@ -18,7 +18,7 @@ const UserProfile = () => {
     
     const user = useSelector(((state) => state.user))
     const palettes = useSelector((state) => state.palette.currentPalettes)
-
+    console.log(palettes)
     const popUp = useSelector((state) => state.palette.paletteInfo)
     const [newCollection, setNewCollection] = useState()
    
@@ -39,7 +39,7 @@ const UserProfile = () => {
         user.collections.map((collection) => {
 
             if (collection.title === collectionTitle) {
-                return dispatch(currentPalettes(collection.palettes))
+                return dispatch(currentPalettes([collection.palettes]))
             }
         })
         
@@ -62,6 +62,7 @@ const UserProfile = () => {
       }
     
     if (palettes) {
+        
         return (
             <div className='h-screen mt-[2%]'>
                 <div className='flex h-[80%]'>
@@ -87,11 +88,12 @@ const UserProfile = () => {
                         {palettes[page - 1].map((palette, key ) => {
                             return <MultiplePalettes key={key} palette={palette}/>
                         })}
+                        <Paginate palettes={palettes} />
                     </div>
                 </div>
                 {popUp? <SinglePalette /> : null}
                 <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
-                <Paginate palettes={user.palettes} />
+                
             </div>
         )        
     }

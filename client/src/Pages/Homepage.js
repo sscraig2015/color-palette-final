@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import CopyAlert from '../Components/CopyAlert';
 import UserAction from '../Components/UserAction';
 import { homePalette } from '../Slices/paletteSlice'
 
@@ -8,6 +9,8 @@ const Homepage = () => {
     const dispatch = useDispatch()
     const [rgbOrHex, setRGBorHex] = useState(true)
     const [savedColors, setSavedColors] = useState([])
+    const [mousePos, setMousePos] = useState({})
+    const [alert, setAlert] = useState(false)
 
     const palette = useSelector((state) => state.palette.paletteHome)
    
@@ -34,6 +37,16 @@ const Homepage = () => {
     function saveValue(e) {
         e.preventDefault()
         var copyText = e.target.value
+
+        setMousePos({
+          x : e.clientX,
+          y : e.clientY,
+        })
+        setAlert(true)
+
+        setTimeout(() => {
+          setAlert(false)
+        }, 2500)
 
         navigator.clipboard.writeText(copyText);
       
@@ -106,6 +119,7 @@ const Homepage = () => {
         let hexValue = convertPalettetoHex(palette)
         return (
             <div className='h-screen w-screen'>
+                {alert? <CopyAlert mousePos = {mousePos}/> : null }
                 <form className='h-[80%]' id='colorForm'>
                     <div className='w-screen h-[100%] flex'>
                         {palette.map((color, key) => {
@@ -135,6 +149,7 @@ const Homepage = () => {
                         })}
                     </div>
                 </form>
+                
                 <UserAction newPalette={newPalette}/>
             </div>
         )

@@ -1,5 +1,5 @@
-import React, { useState }from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState }from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {  currentPalettes } from '../Slices/paletteSlice'
 import Paginate from './Paginate'
@@ -8,12 +8,14 @@ const Header = () => {
   
     const [search, setSearch] = useState()
     const [errors, setErrors] = useState(null)
-
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const palettes = useSelector((state) => state.palette.currentPalettes)
     const dispatch = useDispatch()
 
-    let navigate = useNavigate()
+    useEffect(() => {
+    
+    }, [searchParams])
     
     function fetchPalette(e){
         e.preventDefault()
@@ -23,7 +25,7 @@ const Header = () => {
             if(r.ok){
                 r.json()
                 .then((data) => dispatch(currentPalettes(data)))
-                navigate(`/community/${search}/1`)
+                setSearchParams({tag : search, page : 1})
 
             } else {
                 r.json().then((data) => setErrors(data))
@@ -35,7 +37,7 @@ const Header = () => {
         return (
         <div className='flex justify-between w-[87%] mx-auto p-2 border'>
             <div className='w-[33%]'>
-                <Link reloadDocument to='/community/popular/1' >Popular</Link>
+                <Link reloadDocument to='/community/popular/?page=1' >Popular</Link>
 
             </div>
             <div className='w-[33%] text-center'>

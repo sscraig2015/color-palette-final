@@ -17,7 +17,6 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         userLogin(state, action) {
-            console.log(action.payload, 'userlogin')
             state.id = action.payload.id
             state.username = action.payload.username
             state.palettes = chunk(action.payload.palettes, 12)

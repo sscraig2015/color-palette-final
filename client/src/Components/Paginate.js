@@ -8,10 +8,10 @@ const Paginate = ({palettes}) => {
 
     return (
         <div >
-          <div className='flex border'>
-            {(page === `1`) ? null : <div onClick={(e) => setSearchParams({page : parseInt(page) - 1})}>{"<"}</div> }
+          <div className='flex justify-center border'>
+            {(page === `1`) ? null : <div className='cursor-pointer' onClick={(e) => setSearchParams({page : parseInt(page) - 1})}>{"<"}</div> }
               <span>Page: {page}</span>
-            {(parseInt(page) === palettes.length) ?  null : <div onClick={(e) => setSearchParams({page : parseInt(page) + 1})}>{">"}</div> }
+            {(parseInt(page) === palettes.length) ?  null : <div className='cursor-pointer' onClick={(e) => setSearchParams({page : parseInt(page) + 1})}>{">"}</div> }
           </div>
         </div>
       )

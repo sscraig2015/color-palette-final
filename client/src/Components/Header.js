@@ -10,6 +10,7 @@ const Header = () => {
     const [errors, setErrors] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
     const currentTag = searchParams.get('tag')
+    console.log(currentTag)
 
     const palettes = useSelector((state) => state.palette.currentPalettes)
     const dispatch = useDispatch()
@@ -46,7 +47,7 @@ const Header = () => {
         return (
         <div className='flex justify-between w-[87%] mx-auto p-2 border'>
             <div className='w-[33%] text-center'>
-                Viewing search for: "{currentTag}"
+                Viewing search for: "{currentTag? currentTag : 'most recent'}"
                 <Paginate palettes={palettes}/>
             </div>
             <div className='w-[33%]'>

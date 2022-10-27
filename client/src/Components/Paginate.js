@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams, Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 const Paginate = ({palettes}) => {
     
@@ -7,13 +7,13 @@ const Paginate = ({palettes}) => {
     const page = searchParams.get('page')
 
     return (
-        <div >
-          <div className='flex justify-center border'>
+
+          <div className='flex justify-center'>
             {(page === `1`) ? null : <div className='cursor-pointer' onClick={(e) => setSearchParams({page : parseInt(page) - 1})}>{"<"}</div> }
               <span>Page: {page}</span>
             {(parseInt(page) === palettes.length) ?  null : <div className='cursor-pointer' onClick={(e) => setSearchParams({page : parseInt(page) + 1})}>{">"}</div> }
           </div>
-        </div>
+
       )
 }
 

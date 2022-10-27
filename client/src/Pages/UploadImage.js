@@ -5,6 +5,8 @@ import { uploadPalette } from '../Slices/paletteSlice';
 import UploadImagePalette from '../Components/UploadImagePalette';
 import  ColorThief  from 'colorthief'
 import {Link, useNavigate} from 'react-router-dom'
+import UploadImageButton from '../Components/UploadImageButton';
+import DisplayUploadImage from '../Components/DisplayUploadImage';
 
 
 export function UploadImage() {
@@ -14,7 +16,9 @@ export function UploadImage() {
   const navigate = useNavigate()
   const palette = useSelector((state) => state.palette.paletteUpload)
   const [images, setImages] = useState(null);
+  console.log(images)
   const maxNumber = 1;
+  
 
   const onChange = (imageList, addUpdateIndex) => {
     setImages(imageList);
@@ -67,7 +71,8 @@ export function UploadImage() {
   }
 
   return (
-    <div className='w-[50%] mx-auto mt-[5%]'>
+    
+    <div className='w-[50%] h-[80%] mt-[2%]  flex flex-col mx-auto'>
       <ImageUploading
         value={images}
         onChange={onChange}
@@ -81,38 +86,15 @@ export function UploadImage() {
           isDragging,
           dragProps,
         }) => (
-
-          
-          <div className='border flex'>
-            
-            <div>
-                <button className='border bg-slate-400 px-1 h-[100%]'
-                  style={isDragging ? { color: 'red' } : undefined}
-                  onClick={onImageUpload}
-                  {...dragProps} >
-                  Click or Drop here
-                </button>
-            </div>
-            <div className='m-[3%]'>
-              {imageList.map((image, index) => (
-                <div className='flex flex-col' key={index} >
-                  <img src={image['data_url']} alt="" width="200" />
-                  <div className='border'>
-                    <button onClick={() => onImageUpdate(index)}>Update</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
+          <div className='grow'>
+            {images? <DisplayUploadImage imageList={imageList} onImageUpdate={onImageUpdate} /> : <UploadImageButton isDragging={isDragging} onImageUpload={onImageUpload} dragProps={dragProps} />}  
           </div>
         )}
       </ImageUploading>
+      <UploadImagePalette/>
       <div>
-            {images? <UploadImagePalette/> : null}
-      </div>
-      <div>
-      <button onClick={() => navigate('/home')} className='bg-blue-500 rounded-xl h-10 w-80'>Generate Palette</button>
-        <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-10 w-80'>Save Palette</button>
+        <button onClick={() => navigate('/home')} className='bg-blue-500 rounded-xl h-full w-80'>Generate Palette</button>
+        <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-full w-80'>Save Palette</button>
       </div>
       
     </div>

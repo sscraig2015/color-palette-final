@@ -7,19 +7,34 @@ const UploadImagePalette = () => {
 
 
   const palette = useSelector((state) => state.palette.paletteUpload)
+  const array = Array.from('fivex')
 
-  if (palette) {
-    console.log(palette)
+    if (palette) {
       return (
-        <div className='flex'>
-          {palette.map((color) => {
-            return <div className='w-10 h-10 rounded-full' style={{background : `rgb(${color})`}}></div>
+        <div className='flex border h-11'>
+          {palette.map((color, index) => {
+            return <div key={index} className='w-[20%] h-full' style={{background : `rgb(${color})`}}></div>
           })}
         </div>
       ) 
-        }
+    } else {
+      return (
+        <div className='flex border h-11 align-baseline'>
+          {array.map((n, index) => {
+            return <div key={index} className='w-[20%] h-full text-center' >?</div>
+          })}
+        </div>
+      )
+    }
     
 
 }
 
-export default UploadImagePalette
+export default UploadImagePalette          
+
+
+
+
+
+
+

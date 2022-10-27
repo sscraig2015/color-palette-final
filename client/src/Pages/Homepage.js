@@ -118,18 +118,17 @@ const Homepage = () => {
     if(palette){
         let hexValue = convertPalettetoHex(palette)
         return (
-            <div className='h-screen w-screen'>
+            <div className='h-[80%] w-screen mb-[2%]'>
                 {alert? <CopyAlert mousePos = {mousePos}/> : null }
-                <form className='h-[80%]' id='colorForm'>
+                <form className='h-[95%]' id='colorForm'>
                     <div className='w-screen h-[100%] flex'>
                         {palette.map((color, key) => {
                             return (
                                 //Color Tile
                                 <div key={key} className='w-[20%] flex flex-col'>
-                                    <div className='h-[80%]' style={{ backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`}}>
-                                        
+                                    <div className='h-[80%] grow' style={{ backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`}}>                                     
                                     </div>
-                                    <div className='h-[13%] border text-center'>
+                                    <div className=' border text-center p-1'>
                                         <div>
                                             {!rgbOrHex ? <button className='border-2 px-2 m-1 rounded-md' type='button' onClick={handleClick} >RGB</button> : null } {!rgbOrHex ? <button onClick={saveValue} value={hexValue[key]}>{hexValue[key].toUpperCase()}</button> : null }
                                             {rgbOrHex ? <button  className='border-2 px-2 m-1 rounded-md' onClick={handleClick} type='button' >HEX</button> : null } {rgbOrHex ? <button onClick={saveValue} value={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}>{`rgb(${color[0]}, ${color[1]}, ${color[2]})`}</button> : null }
@@ -148,6 +147,7 @@ const Homepage = () => {
                             )
                         })}
                     </div>
+                    
                 </form>
                 
                 <UserAction newPalette={newPalette}/>

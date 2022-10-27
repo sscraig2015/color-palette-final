@@ -9,6 +9,7 @@ const Header = () => {
     const [search, setSearch] = useState()
     const [errors, setErrors] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
+    const currentTag = searchParams.get('tag')
 
     const palettes = useSelector((state) => state.palette.currentPalettes)
     const dispatch = useDispatch()
@@ -28,7 +29,15 @@ const Header = () => {
                 setSearchParams({tag : search, page : 1})
 
             } else {
-                r.json().then((data) => setErrors(data))
+                r.json().then((data) => {
+                    
+                    setErrors(data)
+
+                    setTimeout(() => {
+                        setErrors(false)
+                    }, 2500)
+
+                }, )
 
             }
         })
@@ -36,11 +45,8 @@ const Header = () => {
 
         return (
         <div className='flex justify-between w-[87%] mx-auto p-2 border'>
-            <div className='w-[33%]'>
-                <Link reloadDocument to='/community/popular/?page=1' >Popular</Link>
-
-            </div>
             <div className='w-[33%] text-center'>
+                Viewing search for: "{currentTag}"
                 <Paginate palettes={palettes}/>
             </div>
             <div className='w-[33%]'>

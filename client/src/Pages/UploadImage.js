@@ -4,13 +4,14 @@ import ImageUploading from 'react-images-uploading';
 import { uploadPalette } from '../Slices/paletteSlice';
 import UploadImagePalette from '../Components/UploadImagePalette';
 import  ColorThief  from 'colorthief'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 
 
 export function UploadImage() {
 
   const colorThief = new ColorThief()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const palette = useSelector((state) => state.palette.paletteUpload)
   const [images, setImages] = useState(null);
   const maxNumber = 1;
@@ -110,7 +111,7 @@ export function UploadImage() {
             {images? <UploadImagePalette/> : null}
       </div>
       <div>
-        <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
+      <button onClick={() => navigate('/home')} className='bg-blue-500 rounded-xl h-10 w-80'>Generate Palette</button>
         <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-10 w-80'>Save Palette</button>
       </div>
       

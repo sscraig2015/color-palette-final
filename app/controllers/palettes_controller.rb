@@ -1,6 +1,6 @@
 class PalettesController < ApplicationController
 
-    skip_before_action :authorize, only: [:index, :popular, :tag, :show]
+    skip_before_action :authorize, only: [:index, :popular, :tag, :show, :search_tag]
 
     def index
         @palette = current_user.palettes.order(:created_at)

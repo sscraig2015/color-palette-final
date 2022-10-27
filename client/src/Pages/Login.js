@@ -29,7 +29,13 @@ const LoginPage = () => {
           r.json().then((data) => dispatch(userLogin(data)))
           navigate('/home')
         } else {
-          r.json().then((r) => setErrors(r))
+          r.json().then((r) => {
+            setErrors(r)
+
+            setTimeout(() => {
+              setErrors(false)
+            }, 2500)
+          })
         }
       })
   }

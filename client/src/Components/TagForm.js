@@ -15,7 +15,11 @@ const TagForm = () => {
 
         for (const oldTag of palette.tags) {
             if(oldTag.name === tag) {
-                return setErrors(true)
+                setErrors(true)
+
+                setTimeout(() => {
+                    setErrors(false)
+                }, 2500)
             }
         }
 

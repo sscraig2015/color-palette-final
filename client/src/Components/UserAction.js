@@ -42,12 +42,12 @@ const UserAction = ({newPalette}) => {
   
   const user = useSelector((state) => state.user)
   return (
-    <div>
-        <div className='flex justify-center gap-2'>
-            <button onClick={newPalette} className='bg-blue-500 rounded-xl h-10 w-80'>Generate Palette</button>
+
+        <div className='flex justify-center gap-2 h-[8%] my-2'>
+            <button onClick={newPalette} className='bg-blue-500 rounded-xl px-1  w-[30%]'>Generate Palette</button>
             {user.id? <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-10 w-80'>Save Palette</button> : null}
         </div>
-    </div>
+
   )
 }
 

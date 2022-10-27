@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { currentPalettes } from '../Slices/paletteSlice'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Header from '../Components/Header'
 
 const Community = () => {
@@ -33,7 +33,7 @@ const Community = () => {
     if (palettes) {
 
         return (
-            <div className='h-screen'>
+            <div className='h-[90%]'>
                 <Header />
                 <div className='h-[75%] w-[87%] mx-auto text-center'>
                             <div className='flex flex-wrap justify-evenly h-[100%] gap-2 p-2'>
@@ -42,7 +42,7 @@ const Community = () => {
                                 })}
                             </div>
                     {popUp? <SinglePalette /> : null}
-                    <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
+                    <button onClick={() => navigate('/home')} className='bg-blue-500 rounded-xl h-10 w-80'>Generate Palette</button>
                 </div>
             </div>
         )

@@ -24,14 +24,14 @@ const Navbar = () => {
   }
 
   return (
-    <div className='border-2 w-[50%] mx-auto mb-[2%] absolute inset-x-0 bottom-0'>
-        <div className='flex justify-evenly'>
-            <Link reloadDocument to='/community/popular/?page=1'>Community</Link>
-            <div>{user.id? <Link to={`/users/${user.id}/?page=1`}>{user.username}</Link> : "Welcome"}</div>
-            {user.id? <button onClick={handleLogout} className='border rounded-md bg-gray-500'>Logout</button > : <Link to='/login' className='border rounded-md bg-gray-500'>Login/Signup</Link >}
-            <Link to='/uploadImage'>Upload Image</Link>
+
+        <div className='flex justify-evenly border-2 w-[50%] mx-auto mb-[2%]'>
+            <Link className='underline'reloadDocument to='/community/popular/?page=1'>Browse</Link>
+            <Link to='/uploadImage' className=' underline'>Upload Image</Link>             
+            {user.id? <Link className=' underline' to={`/users/${user.id}/?page=1`}>{user.username}</Link> : null }
+            {user.id? <button onClick={handleLogout} className=' underline rounded-md '>Logout</button > : <Link to='/login' className=' underline rounded-md '>Login/Signup</Link >}
         </div>
-    </div>
+
   )
 }
 

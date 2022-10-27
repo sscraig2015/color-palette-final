@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { currentPalettes } from '../Slices/paletteSlice'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import Header from '../Components/Header'
 
 const Community = () => {
   
     const dispatch = useDispatch()
     const params = useParams()
+    const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
     const page = searchParams.get('page')
     const palettes = useSelector((state) => state.palette.currentPalettes)
@@ -18,8 +19,15 @@ const Community = () => {
 
     useEffect(() => {
         fetch(`/api/palettes/${params.category}`)
-        .then((r) => r.json())
-        .then((data) => dispatch(currentPalettes(data)))
+            
+        .then((r) => {
+            if(r.ok){
+                r.json().then((data) => dispatch(currentPalettes(data)))
+            } else {
+                r.json().then(() => navigate('/oopsie'))
+            }
+        })
+        
     }, [])
 
     if (palettes) {

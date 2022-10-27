@@ -5,6 +5,7 @@ import CopyAlert from './CopyAlert'
 
 import TagForm from './TagForm'
 import CollectionForm from './CollectionForm'
+import DeletePalette from './DeletePalette'
 
 
 const SinglePalette = () => {
@@ -55,7 +56,7 @@ const SinglePalette = () => {
                         {user.id? <CollectionForm /> : null} 
                     
                     </div>
-                    {user.id? <TagForm /> : null}
+                        {user.id? <TagForm /> : null}
                     
                     <div className='flex gap-2 my-6'>
                         <div >
@@ -68,7 +69,7 @@ const SinglePalette = () => {
                         </div>
                     </div>
                 </div>
-                
+                {palette.user_id === user.id? <DeletePalette /> : null}
             </div>
         </div>
     )

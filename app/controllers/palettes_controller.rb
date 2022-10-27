@@ -32,6 +32,12 @@ class PalettesController < ApplicationController
 
     end
 
+    def destroy
+        @palette = current_user.palettes.find_by(id: params[:id])
+        @palette.destroy
+        
+    end
+
 
     def popular
         render json: Palette.all.order(:created_at), status: :ok

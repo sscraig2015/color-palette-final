@@ -2,8 +2,7 @@ import React from 'react';
 import './App.css';
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { userLogin } from './Slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import Navbar from './Components/Navbar';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
@@ -13,22 +12,20 @@ import UploadImage from './Pages/UploadImage'
 import Homepage from './Pages/Homepage';
 import NotAuthorized from './Pages/NotAuthorized';
 
+import { fetchUser } from './Slices/userSlice'
+
 
 function App() {
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
+
 
 
   //Auto login user
   useEffect(() => {
 
-    fetch('/me').then((r) => {
-
-        if (r.ok) {
-          r.json().then((user) => dispatch(userLogin(user)));
-        } 
-      })
+      dispatch(fetchUser())
       }, []);
 
 return(
@@ -43,6 +40,7 @@ return(
       <Route path='/oopsie' element={<NotAuthorized /> } />
       <Route path='*' element={<NotAuthorized />} />
     </Routes>
+
     <Navbar />
   </div>
 )

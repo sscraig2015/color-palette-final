@@ -1,9 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
     arr.slice(i * size, i * size + size)
   );
+
+
 
 const initialState = {
     paletteHome : null,
@@ -29,12 +31,11 @@ const paletteSlice = createSlice({
         },
 
         currentPalettes(state,action) {
-            console.log(action.payload)
+           
             const flatArray = action.payload.flat()
             state.currentPalettes = chunk(flatArray, 12)
         },
         uploadPalette(state, action){
-
             state.paletteUpload = action.payload
         }
 

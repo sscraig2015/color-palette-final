@@ -17,7 +17,11 @@ const CollectionForm = () => {
             if (coll.title === selection) {
                 for (const collPalette of coll.palettes) {
                     if(palette.id === collPalette.id) {
-                        return setErrors(true)
+                       setErrors(true)
+
+                       return setTimeout(() => {
+                        setErrors(false)
+                       }, 2000)
                     }
                 }
             }
@@ -39,13 +43,13 @@ const CollectionForm = () => {
     return (
         <div>
             <form onSubmit={(e) => saveToCollection(e)}>
-                <label htmlFor='collections'>Save to collection:</label>
-                <select id='collections' onChange={(e) => setSelection(e.target.value)}>
-                    {user.collections.map((collection) => {
-                        return <option value={collection.title}>{collection.title}</option>
+                <label >Save to collection:</label>
+                <select className='border-2' onChange={(e) => setSelection(e.target.value)}>
+                    {user.collections.flat().map((collection) => {
+                        return <option  value={collection.title}>{collection.title}</option>
                     })}
                 </select>
-                <input className='border bg-slate-300 rounded-lg' type='submit' value='save'></input>
+                <input className='border bg-slate-300 rounded-lg px-1' type='submit' value='save'></input>
             </form>
             {errors? <div>Collection already saved...</div> : null}
         </div>

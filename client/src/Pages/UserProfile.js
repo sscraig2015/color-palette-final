@@ -7,6 +7,7 @@ import {  currentPalettes  } from '../Slices/paletteSlice'
 import Paginate from '../Components/Paginate'
 import { createCollection } from '../Slices/userSlice'
 import PaginateCollections from '../Components/PaginateCollections'
+import CollectionPreview from '../Components/CollectionPreview'
 
 
 
@@ -41,13 +42,14 @@ const UserProfile = () => {
         e.preventDefault()
         const collectionTitle = e.target.innerHTML
 
-        console.log(user.collections)
-        // user.collections.map((collection) => {
 
-        //     if (collection.title === collectionTitle) {
-        //         dispatch((currentPalettes(collection.palettes)))
-        //     }
-        // })
+        user.collections.flat().map((collection) => {
+
+            if (collection.title === collectionTitle) {
+                dispatch((currentPalettes(collection.palettes)))
+                setSearchParams({page : '1'})
+            }
+        })
         
     }
 
@@ -68,20 +70,20 @@ const UserProfile = () => {
       }
     
     if (palettes) {
-
         return (
             <div className='h-screen mt-[2%]'>
                 <div className='flex h-[80%] w-[95%] mx-auto'>
-                    <div className='border w-[20%] p-1'>
+                    <div className='w-[20%] p-1'>
                         <form className='border' onSubmit={(e) => addCollection(e)}>
                             <label>Create collection:</label>
                             <input className='border' type='text' value={newCollection} onChange={(e) => setNewCollection(e.target.value)}></input>
                             <input type='submit' className='cursor-pointer bg-slate-400 rounded-lg px-1'></input>
                         </form>
-                        <div className='border h-[70%]'>
-                            <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
-                            {user.collections[collectionPage].map((collection, index) => {
-                                return <div key={index} className='cursor-pointer ' onClick={updatePalettes}>{collection.title}</div>
+                        <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
+                        <div className='h-[70%] flex flex-col gap-1 '>
+                            {user.collections[collectionPage].map((collection) => {
+
+                                    return <CollectionPreview collection={collection}  updatePalettes={updatePalettes}/>
                             })}                                    
                         </div>
                         <PaginateCollections collections={user.collections} setCollectionPage={setCollectionPage} page={collectionPage}/>

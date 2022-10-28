@@ -8,7 +8,7 @@ const PaginateCollections = ( { collections, setCollectionPage, page } ) => {
 
           <div className='flex justify-center'>
             {(page === 0) ? null : <div className='cursor-pointer' onClick={(e) => setCollectionPage(page - 1) }>{"<"}</div> }
-              <span>collection: {page + 1}</span>
+              <span>page: {page + 1}</span>
             {(page + 1 === collections.length) ?  null : <div className='cursor-pointer' onClick={(e) => setCollectionPage(page + 1) }>{">"}</div> }
           </div>
 

@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
 
-        <div className='flex justify-evenly border-2 w-[50%] mx-auto mb-[2%]'>
+        <div className='flex justify-evenly border-2 w-[50%] mx-auto'>
             <Link className='underline'reloadDocument to='/community/popular/?page=1'>Browse</Link>
             <Link to='/uploadImage' className=' underline'>Upload Image</Link>             
             {user.id? <Link className=' underline' to={`/users/${user.id}/?page=1`}>{user.username}</Link> : null }

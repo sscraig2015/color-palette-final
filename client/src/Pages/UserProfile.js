@@ -71,8 +71,8 @@ const UserProfile = () => {
     
     if (palettes) {
         return (
-            <div className='h-screen mt-[2%]'>
-                <div className='flex h-[80%] w-[95%] mx-auto'>
+            <div className='h-[90%]'>
+                <div className='flex h-[90%] w-[95%] mx-auto'>
                     <div className='w-[20%] p-1'>
                         <form className='border' onSubmit={(e) => addCollection(e)}>
                             <label>Create collection:</label>
@@ -82,21 +82,24 @@ const UserProfile = () => {
                         <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
                         <div className='h-[70%] flex flex-col gap-1 '>
                             {user.collections[collectionPage].map((collection) => {
-
                                     return <CollectionPreview collection={collection}  updatePalettes={updatePalettes}/>
                             })}                                    
                         </div>
                         <PaginateCollections collections={user.collections} setCollectionPage={setCollectionPage} page={collectionPage}/>
                     </div>
-                    <div className='flex flex-wrap justify-start gap-3 grow p-3'>
-                        {palettes[page - 1].map((palette, key ) => {
-                            return <MultiplePalettes key={key} palette={palette}/>
-                        })}
+                    <div className='flex flex-col grow h'>
+                        <div className='flex flex-wrap justify-start gap-3 grow p-3'>
+                            {palettes[page - 1].map((palette, key ) => {
+                                return <MultiplePalettes key={key} palette={palette}/>
+                            })}
+                            
+                        </div>
                         <Paginate palettes={palettes}/>
                     </div>
+
                 </div>
                 {popUp? <SinglePalette /> : null}
-                <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
+                <div className=' w-[25%] mx-auto text-center'><button onClick={() => navigate('/home')} className='bg-blue-500 rounded-xl h-full'>Generate Palette</button></div>
                 
             </div>
         )        

@@ -5,21 +5,23 @@ const CollectionPreview = ({index, updatePalettes, collection}) => {
 
     if (collection.palettes.length > 0) {
         return (
-            <div onClick={updatePalettes} className='flex flex-col cursor-pointer border-4 rounded-md grow p-1'>
+
+            <div onClick={updatePalettes} className='flex flex-col cursor-pointer border-4 rounded-md h-1/5 p-1'>
                 <div className='underline'>{collection.title}</div>
-                <div className='flex grow p-1 gap-1'>
+                <div className='flex h-1/3 p-1 '>
                     {collection.palettes[0].hexValues.map((color) => {
-                    return <div className=' w-1/5 rounded-full' style={{background : color}}></div>
+                    return <div className=' w-1/5' style={{background : color}}></div>
                 })} 
                 </div>
             </div>
+
         )
 
     } else {
         return (
-        <div className='cursor-pointer border-4 rounded-md grow p-1'>
+        <div className='flex flex-col cursor-pointer border-4 rounded-md h-1/5 p-1'>
             <div>{collection.title}</div>
-            <div>No palettes saved...</div>
+            <div className=' text-sm'>No palettes saved...</div>
         </div>
         )
     }

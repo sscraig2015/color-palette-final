@@ -52,7 +52,7 @@ const userSlice = createSlice({
             state.id = action.payload.id
             state.username = action.payload.username
             state.palettes = chunk(action.payload.palettes, 12)
-            state.collections = chunk(action.payload.collections, 4)
+            state.collections = chunk(action.payload.collections, 5)
         }
     }
 })

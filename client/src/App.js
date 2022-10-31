@@ -19,9 +19,6 @@ function App() {
 
   const dispatch = useDispatch()
 
-
-
-
   //Auto login user
   useEffect(() => {
 

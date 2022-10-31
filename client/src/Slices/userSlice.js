@@ -8,8 +8,8 @@ const chunk = (arr, size) =>
 const initialState = {
     id: null,
     username: null,
-    palettes: null,
-    collections: null,
+    palettes: [],
+    collections: [],
     status: 'idle',
     errors: null,
 
@@ -19,6 +19,10 @@ export const fetchUser = createAsyncThunk('users/fetchUser', () => {
     return fetch('/me')
         .then((r) => r.json())
 
+})
+
+export const signUp = createAsyncThunk('users/signUp', () => {
+    
 })
 
 export const savePalette = createAsyncThunk('users/savePalette', (hexArray) => {
@@ -72,6 +76,13 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        userLogin(state,action){
+            state.id = action.payload.id
+            state.username = action.payload.username
+            state.palettes = action.payload.palettes
+            state.collections = action.payload.collections
+
+        },
         userLogout(state, action) {
             state.id = null
             state.username = null
@@ -95,11 +106,12 @@ const userSlice = createSlice({
             state.collections = chunk(action.payload.collections, 5)
         },
         [savePalette.fulfilled](state, action){
-            state.palettes.push(action.payload) 
+            const newPalette = [...current(state.palettes).flat(), action.payload]
+            state.palettes = chunk(newPalette, 5)
         },
         [addPaletteToCollection.fulfilled](state, action){
             //recieves a palette, need to add to appropriate collection
-            console.log(current(state).collections.flat())
+            console.log(current(state.collections).flat())
         },
         [createCollection.fulfilled](state, action){
 

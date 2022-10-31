@@ -72,7 +72,7 @@ const paletteSlice = createSlice({
             state.paletteInfo = action.payload
         },
         currentPalettes(state,action) {
-           
+            state.status = 'loaded'
             state.currentPalettes = chunk(action.payload.flat(), 12)
         },
         uploadPalette(state, action){

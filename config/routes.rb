@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
 resources :collections, only: [:create, :update]
-resources :palettes, only: [:create, :show, :delete, :update]
-resources :users do 
-      resources :palettes
-end
+resources :palettes, only: [:create, :show, :destroy, :update]
+
 
 
 #Find community palettes

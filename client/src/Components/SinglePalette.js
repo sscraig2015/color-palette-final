@@ -52,11 +52,7 @@ const SinglePalette = () => {
                     })}
                 </div>
                 <div className='bg-slate-100'>
-                    <div>
-                        {user.id? <CollectionForm /> : null} 
-                    
-                    </div>
-                        {user.id? <TagForm /> : null}
+                    {user.id? <CollectionForm /> : null}       
                     
                     <div className='flex gap-2 my-6'>
                         <div >
@@ -67,7 +63,9 @@ const SinglePalette = () => {
                                 return <span key={index} onClick={((e) => console.log('can click tag'))}className='bg-blue-200 p-1 rounded-lg'>{tag.name}</span>
                             })}                            
                         </div>
+                        
                     </div>
+                    {user.id? <TagForm /> : null}
                 </div>
                 {palette.user_id === user.id? <DeletePalette /> : null}
             </div>

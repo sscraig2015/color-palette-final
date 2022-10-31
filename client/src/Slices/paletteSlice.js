@@ -10,7 +10,6 @@ const initialState = {
     paletteInfo : null,
     currentPalettes: null,
     paletteUpload: null,
-    status: 'idle',
 }
 
 export const addTag = createAsyncThunk('palettes/addTag', (data) => {
@@ -72,7 +71,7 @@ const paletteSlice = createSlice({
             state.paletteInfo = action.payload
         },
         currentPalettes(state,action) {
-            state.status = 'loaded'
+            console.log(action.payload)
             state.currentPalettes = chunk(action.payload.flat(), 12)
         },
         uploadPalette(state, action){

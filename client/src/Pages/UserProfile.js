@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {  useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import MultiplePalettes from '../Components/MultiplePalettes'
+
 import SinglePalette from '../Components/SinglePalette'
 import {  currentPalettes  } from '../Slices/paletteSlice'
 import Paginate from '../Components/Paginate'
@@ -9,6 +9,7 @@ import { createCollection } from '../Slices/userSlice'
 import PaginateCollections from '../Components/PaginateCollections'
 import CollectionPreview from '../Components/CollectionPreview'
 import UserMain from '../Components/UserMain'
+import UserCollections from '../Components/UserCollections'
 
 
 
@@ -36,6 +37,7 @@ const UserProfile = () => {
    useEffect( () => {
 
         if(user.id){
+            console.log('first')
             dispatch(currentPalettes(user.palettes))
         }
 
@@ -47,9 +49,10 @@ function updatePalettes(e){
     const collectionTitle = e.target.innerHTML
 
 
-    user.collections.flat().map((collection) => {
+    user.collections.flat().forEach((collection) => {
 
-    if (collection.title === collectionTitle) {
+     if (collection.title === collectionTitle) {
+        console.log('update palettes')
         dispatch((currentPalettes(collection.palettes)))
         setSearchParams({page : '1'})
     }
@@ -77,16 +80,16 @@ if (palettes) {
                     </form>
                     <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
                     <div className='h-[70%] flex flex-col gap-1 '>
-                        {collections[collectionPage].map((collection, index) => {
-                                return <CollectionPreview key={index} collection={collection}  updatePalettes={updatePalettes}/>
-                        })}                                    
+                        <UserCollections page={collectionPage} updatePalettes={updatePalettes}/> 
+                        
+                              
                     </div>
                     <PaginateCollections collections={collections} setCollectionPage={setCollectionPage} page={collectionPage}/>
                 </div>
                 <div className='flex flex-col grow h'>
                     {palettes.length === 0?  <UserMain palette={false} /> : <UserMain palette={true} palettes={palettes} page={page} />}
 
-                    {/* {palettes.length > 0? <Paginate palettes={palettes}/> : null} */}
+                    {palettes.length > 0? <Paginate palettes={palettes}/> : null}
                 </div>
 
             </div>

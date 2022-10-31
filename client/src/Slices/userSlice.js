@@ -10,7 +10,6 @@ const initialState = {
     username: null,
     palettes: [],
     collections: [],
-    status: 'idle',
     errors: null,
 
 }

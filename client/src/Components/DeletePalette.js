@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 
 const DeletePalette = () => {
@@ -12,14 +12,14 @@ const DeletePalette = () => {
         
         if (response) {
             console.log('delete')
-            fetch(`/users/${user.id}/palettes/${palette.id}`,{
+            fetch(`/palettes/${palette.id}`,{
                 method: 'DELETE',
             })
             .then(window.location.reload())
         }
     }
   return (
-    <button onClick={handleClick} className='bg-red-100 text-red-600 p-1 rounded-lg'>Delete Palette</button>
+    <div className='ml-[80%]'><button onClick={handleClick} className='bg-red-100 text-red-600 p-1 rounded-lg my-4'>Delete Palette</button></div>
   )
 }
 

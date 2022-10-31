@@ -35,14 +35,15 @@ const CollectionForm = () => {
 
     return (
         <div>
-            <form onSubmit={(e) => saveToCollection(e)}>
+            <form className='flex justify-end' onSubmit={(e) => saveToCollection(e)}>
                 <label >Save to collection:</label>
                 <select className='border-2' onChange={(e) => setSelection(e.target.value)}>
+                    <option selected>Choose a collection...</option>
                     {user.collections.flat().map((collection, index) => {
                         return <option key={index}  value={collection.title}>{collection.title}</option>
                     })}
                 </select>
-                <input className='border bg-slate-300 rounded-lg px-1' type='submit' value='save'></input>
+                <input className='border bg-slate-300 rounded-lg px-1 cursor-pointer active:bg-slate-500' type='submit' value='save'></input>
             </form>
             {errors? <div>Collection already saved...</div> : null}
         </div>

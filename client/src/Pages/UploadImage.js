@@ -13,6 +13,7 @@ import  {convertPalettetoHex} from '../Features/ConvertColor'
 export function UploadImage() {
 
   const colorThief = new ColorThief()
+  const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const palette = useSelector((state) => state.palette.paletteUpload)
@@ -79,9 +80,9 @@ export function UploadImage() {
         )}
       </ImageUploading>
       <UploadImagePalette/>
-      <div>
+      <div className='flex justify-center m-4'>
         <button onClick={() => navigate('/home')} className='bg-blue-500 rounded-xl h-full w-80'>Generate Palette</button>
-        <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-full w-80'>Save Palette</button>
+        {user.id? <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-full w-80'>Save Palette</button> : null }
       </div>
       
     </div>

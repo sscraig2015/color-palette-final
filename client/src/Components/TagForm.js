@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addTag } from '../Slices/paletteSlice'
 
 
+
 const TagForm = () => {
 
     const [tag, setTag] = useState()
@@ -32,15 +33,15 @@ const TagForm = () => {
     }
 
     function newTag(){
-        const id = palette.id
-        dispatch(addTag({id: id, tag: tag}))
+        dispatch(addTag({id: palette.id, tag: tag}))
+
     }
   
     return (
     <form onSubmit={(e) => validateSearch(e)}>
         <input type='text' placeholder='Add tag....' value={tag} onChange={(e) => setTag(e.target.value)}></input>
         <input type='submit'></input>
-        {errors? <span>That tag is already taken...</span> : null}
+        {errors? <span>This palette already has that tag...</span> : null}
     </form>
   )
 }

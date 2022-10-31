@@ -4,7 +4,16 @@ const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
     arr.slice(i * size, i * size + size)
   );
+  
+const initialState = {
+    id: null,
+    username: null,
+    palettes: null,
+    collections: null,
+    status: 'idle',
+    errors: null,
 
+}
 export const fetchUser = createAsyncThunk('users/fetchUser', () => {
 
     return fetch('/me')
@@ -44,7 +53,7 @@ export const addPaletteToCollection = createAsyncThunk('users/addPaletteToCollec
 
 })
 
-export const createCollection = createAsyncThunk('users/createCollection', (data) => {
+export const createCollection = createAsyncThunk('users/createCollection', (newCollection) => {
     
     return fetch(`/collections`, {
         method: 'POST',
@@ -52,20 +61,13 @@ export const createCollection = createAsyncThunk('users/createCollection', (data
             'Content-type' : 'application/json'
         },
         body: JSON.stringify({
-            title: data,
+            title: newCollection,
         })
     })
-    .then((r) => console.log(r))
+    .then((r) => r.json())
 })
 
-const initialState = {
-    id: null,
-    username: null,
-    palettes: null,
-    collections: null,
-    status: 'idle',
 
-}
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -79,7 +81,6 @@ const userSlice = createSlice({
         updateCollection(state, action){
             const result = current(state).collections.flat().filter(collection => collection.title !== action.payload.title)
             console.log(result)
-
         }
     },
     extraReducers: {
@@ -99,6 +100,15 @@ const userSlice = createSlice({
         [addPaletteToCollection.fulfilled](state, action){
             //recieves a palette, need to add to appropriate collection
             console.log(current(state).collections.flat())
+        },
+        [createCollection.fulfilled](state, action){
+
+            if(action.payload.error){
+                state.errors = action.payload.error
+            } else {
+                const newColl = [...current(state.collections).flat(), action.payload]
+                state.collections = chunk(newColl,5)
+            }
         }
     }
 })

@@ -4,9 +4,10 @@ import ImageUploading from 'react-images-uploading';
 import { uploadPalette } from '../Slices/paletteSlice';
 import UploadImagePalette from '../Components/UploadImagePalette';
 import  ColorThief  from 'colorthief'
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import UploadImageButton from '../Components/UploadImageButton';
 import DisplayUploadImage from '../Components/DisplayUploadImage';
+import  {convertPalettetoHex} from '../Features/ConvertColor'
 
 
 export function UploadImage() {
@@ -25,20 +26,6 @@ export function UploadImage() {
 
   };
 
-  function ColorToHex(color) {
-    var hexadecimal = color.toString(16);
-    return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;
-  }
-  
-  function ConvertRGBtoHex(red, green, blue) {
-    return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
-  }
-
-  function convertPalettetoHex(givenPalette){
-    return givenPalette.map((colorRGB) => {
-      return ConvertRGBtoHex(colorRGB[0], colorRGB[1], colorRGB[2])
-    })
-  }
 
   useEffect(() => {
     const img = document.querySelector('img');

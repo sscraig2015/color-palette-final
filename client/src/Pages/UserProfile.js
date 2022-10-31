@@ -24,6 +24,7 @@ const UserProfile = () => {
     const collections = useSelector((state) => state.user.collections)
     const palettes = useSelector((state) => state.palette.currentPalettes)
     const popUp = useSelector((state) => state.palette.paletteInfo)
+    const errors = useSelector((state) => state.user.errors)
     const [newCollection, setNewCollection] = useState()
     const [collectionPage, setCollectionPage] = useState(0)
 
@@ -66,10 +67,11 @@ function addCollection(e) {
             <div className='h-[90%]'>
                 <div className='flex h-[90%] w-[95%] mx-auto'>
                     <div className='w-[20%] p-1'>
-                        <form className='border' onSubmit={(e) => addCollection(e)}>
+                        <form className='border p-1' onSubmit={(e) => addCollection(e)}>
                             <label>Create collection:</label>
                             <input className='border' type='text' value={newCollection} onChange={(e) => setNewCollection(e.target.value)}></input>
                             <input type='submit' className='cursor-pointer bg-slate-400 rounded-lg px-1'></input>
+                            {errors? <div>{errors}</div> : null}
                         </form>
                         <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
                         <div className='h-[70%] flex flex-col gap-1 '>

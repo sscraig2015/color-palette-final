@@ -25,7 +25,7 @@ class PalettesController < ApplicationController
             @updateTags = @palette.tags << @tag
             render json: {tags: @updateTags}, status: :created
         else
-            @newTag = Tag.create(name: params[:tag])
+            @newTag = Tag.create!(name: params[:tag])
             @updateTags = @palette.tags << @newTag
             render json: {tags: @updateTags}, status: :created
         end

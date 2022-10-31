@@ -1,9 +1,17 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
     arr.slice(i * size, i * size + size)
   );
+
+const initialState = {
+    paletteHome : null,
+    paletteInfo : null,
+    currentPalettes: null,
+    paletteUpload: null,
+    status: 'idle',
+}
 
 export const addTag = createAsyncThunk('palettes/addTag', (data) => {
     
@@ -18,31 +26,54 @@ export const addTag = createAsyncThunk('palettes/addTag', (data) => {
         })
     })
     .then((r) => r.json())
+})
+
+export const homePalette = createAsyncThunk('palettes/homePalette', () => {
+
+    const options = {
+        method: 'POST',
+        body: JSON.stringify({ 	
+          model : "default",
+          input : ["N","N","N","N","N"]})
+      }
+      return fetch(`http://colormind.io/api/`, options)
+        .then((r) => r.json())
+        
+})
+
+export const newUserPalette = createAsyncThunk('palettes/newUserPalette', (savedColors) => {
+
+    let userColors = [...savedColors]
+      
+    if(savedColors.length < 5){
+      while ( userColors.length < 5) {
+        userColors.push("N")
+      }
+    }
+  
+    const options = {
+        method: 'POST',
+        body: JSON.stringify({ 	
+        model : "default",
+        input : userColors})
+    }
+    
+    return fetch(`http://colormind.io/api/`, options)
+          .then((r) => r.json())
 
 })
 
-const initialState = {
-    paletteHome : null,
-    paletteInfo : null,
-    currentPalettes: null,
-    paletteUpload: null,
-    status: 'idle',
-}
 
 const paletteSlice = createSlice({
     name: 'palette',
     initialState,
     reducers: {
-        homePalette(state, action) {
-            state.paletteHome = action.payload.result
-        },
         paletteInfo(state, action) {
             state.paletteInfo = action.payload
         },
         currentPalettes(state,action) {
            
-            const flatArray = action.payload.flat()
-            state.currentPalettes = chunk(flatArray, 12)
+            state.currentPalettes = chunk(action.payload.flat(), 12)
         },
         uploadPalette(state, action){
             state.paletteUpload = action.payload
@@ -50,11 +81,16 @@ const paletteSlice = createSlice({
     },
     extraReducers: {
         [addTag.fulfilled](state, action) {
-            
             state.paletteInfo.tags = action.payload.tags
+        },
+        [homePalette.fulfilled](state, action){
+            state.paletteHome = action.payload.result
+        },
+        [newUserPalette.fulfilled](state, action){
+            state.paletteHome = action.payload.result
         }
     }
 })
 
-export const { homePalette, paletteInfo, uploadPalette, currentPalettes } = paletteSlice.actions
+export const { paletteInfo, uploadPalette, currentPalettes } = paletteSlice.actions
 export default paletteSlice.reducer

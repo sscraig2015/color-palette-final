@@ -4,35 +4,24 @@ import CopyAlert from '../Components/CopyAlert';
 import SaveAlert from '../Components/SavedAlert';
 import UserAction from '../Components/UserAction';
 import ColorTile from '../Components/ColorTile';
-import { homePalette } from '../Slices/paletteSlice'
+import { homePalette, newUserPalette } from '../Slices/paletteSlice'
 
 const Homepage = () => {
   
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-    const [savedColors, setSavedColors] = useState([])
-    const [mousePos, setMousePos] = useState({})
-    const [saveAlert, setSaveAlert] = useState(false)
-    const [alert, setAlert] = useState(false)
+  const [savedColors, setSavedColors] = useState([])
+  const [mousePos, setMousePos] = useState({})
+  const [saveAlert, setSaveAlert] = useState(false)
+  const [alert, setAlert] = useState(false)
 
-    const palette = useSelector((state) => state.palette.paletteHome)
+  const palette = useSelector((state) => state.palette.paletteHome)
 
+  //Generates new palette on load
+  useEffect(() => {
 
-
-
-    
-    //Generates new palette on load
-    useEffect(() => {
-        const options = {
-          method: 'POST',
-          body: JSON.stringify({ 	
-            model : "default",
-            input : ["N","N","N","N","N"]})
-        }
-        fetch(`http://colormind.io/api/`, options)
-          .then((r) => r.json())
-          .then((data) => dispatch(homePalette(data)))
-      }, [])
+    dispatch(homePalette())
+    }, [])
 
 
   //Resets user's palette selection
@@ -45,49 +34,33 @@ const Homepage = () => {
   }
 
 
-    //Generates new palette with user's saved colors
-    function newPalette(e){
-      e.preventDefault()
-    
-      let userColors = [...savedColors]
-      
-        if(savedColors.length < 5){
-          while ( userColors.length < 5) {
-            userColors.push("N")
-          }
-        }
-      
-          const options = {
-              method: 'POST',
-              body: JSON.stringify({ 	
-                model : "default",
-                input : userColors})
-            }
-            fetch(`http://colormind.io/api/`, options)
-              .then((r) => r.json())
-              .then((data) => dispatch(homePalette(data)))
-              setSavedColors([])
-              resetForm()
-    }
+  //Generates new palette with user's saved colors
+  function newPalette(e){
+    e.preventDefault()
+
+    dispatch(newUserPalette(savedColors))
+    setSavedColors([])
+    resetForm()
+  }
     
     if(palette){
-        
-        return (
-            <div className='h-[80%] w-screen mb-[2%]'>
-                {alert? <CopyAlert mousePos = {mousePos}/> : null }
-                {saveAlert? <SaveAlert mousePos = {mousePos}/> : null}
-                <form className='h-[95%]' id='colorForm'>
-                    <div className='w-screen h-[100%] flex'>
-                        {palette.map((color, index) => {
-                            return (
-                                <ColorTile key={index} index={index} color={color} setSavedColors={setSavedColors} savedColors={savedColors} setMousePos={setMousePos} setAlert={setAlert}/>
-                            )
-                        })}
-                    </div>
-                </form>
-                <UserAction newPalette={newPalette} setSaveAlert={setSaveAlert} setMousePos={setMousePos} />
-            </div>
-        )
+      
+      return (
+          <div className='h-[80%] w-screen mb-[2%]'>
+              {alert? <CopyAlert mousePos = {mousePos}/> : null }
+              {saveAlert? <SaveAlert mousePos = {mousePos}/> : null}
+              <form className='h-[95%]' id='colorForm'>
+                  <div className='w-screen h-[100%] flex'>
+                      {palette.map((color, index) => {
+                          return (
+                              <ColorTile key={index} index={index} color={color} setSavedColors={setSavedColors} savedColors={savedColors} setMousePos={setMousePos} setAlert={setAlert}/>
+                          )
+                      })}
+                  </div>
+              </form>
+              <UserAction newPalette={newPalette} setSaveAlert={setSaveAlert} setMousePos={setMousePos} />
+          </div>
+      )
     }
 }
 

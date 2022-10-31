@@ -63,8 +63,8 @@ const SinglePalette = () => {
                             Tags...   
                         </div>
                         <div className='flex flex-wrap gap-3'>
-                            {palette.tags.map((tag) => {
-                                return <span onClick={((e) => console.log('can click span'))}className='bg-blue-200 p-1 rounded-lg'>{tag.name}</span>
+                            {palette.tags.map((tag, index) => {
+                                return <span key={index} onClick={((e) => console.log('can click tag'))}className='bg-blue-200 p-1 rounded-lg'>{tag.name}</span>
                             })}                            
                         </div>
                     </div>

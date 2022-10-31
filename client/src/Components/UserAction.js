@@ -1,51 +1,43 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {updateUserPalettes} from '../Slices/userSlice'
-const UserAction = ({newPalette}) => {
+import { savePalette } from '../Slices/userSlice'
+import { convertPalettetoHex } from '../Features/ConvertColor'
 
-  const palette = useSelector((state) => state.palette.paletteHome)
-  const dispatch = useDispatch()
-
-  function ColorToHex(color) {
-    var hexadecimal = color.toString(16);
-    return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;
-  }
+const UserAction = ({newPalette, setSaveAlert, setMousePos}) => {
   
-  function ConvertRGBtoHex(red, green, blue) {
-    return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
-  }
+  const dispatch = useDispatch()
+  
+  const user = useSelector((state) => state.user)
+  const palette = useSelector((state) => state.palette.paletteHome)
 
-  function convertPalettetoHex(givenPalette){
-    return givenPalette.map((colorRGB) => {
-      return ConvertRGBtoHex(colorRGB[0], colorRGB[1], colorRGB[2])
-    })
-  }
+
 
 
   // Creates palette in hex to the backend
-  function savePalette(){
+  function handleSave(e){
     const hexArray = convertPalettetoHex(palette)
-
-    fetch('/palettes', {
-      method: "POST",
-      headers: {
-        'Content-type' : 'application/json'
-      },
-      body: JSON.stringify({
-        hexValues: hexArray,
-        tags: [],
-
-      })
+    
+    setMousePos({
+      x : e.clientX,
+      y : e.clientY,
     })
-    .then((r) => r.json()).then((data) => dispatch(updateUserPalettes(data)))
+    setSaveAlert(true)
+
+    dispatch(savePalette(hexArray))
+
+    setTimeout(() => {
+      setSaveAlert(false)
+    }, 1000)
+
   }
   
-  const user = useSelector((state) => state.user)
+  
+  
   return (
 
         <div className='flex justify-center gap-2 h-[8%] my-2'>
             <button onClick={newPalette} className='bg-blue-500 rounded-xl px-1  w-[30%]'>Generate Palette</button>
-            {user.id? <button  onClick={savePalette}className='bg-blue-500 rounded-xl h-10 w-80'>Save Palette</button> : null}
+            {user.id? <button  onClick={(e)=> handleSave(e)} className='bg-blue-500 rounded-xl w-[30%]'>Save Palette</button> : null}
         </div>
 
   )

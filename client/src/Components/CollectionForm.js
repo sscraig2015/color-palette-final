@@ -1,6 +1,6 @@
 import React, {useState}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCollection } from '../Slices/userSlice'
+import { updateCollection, addPaletteToCollection } from '../Slices/userSlice'
 
 const CollectionForm = () => {
   
@@ -13,6 +13,7 @@ const CollectionForm = () => {
     function saveToCollection(e){
         e.preventDefault()
         
+        //checks if palette is already in collection
         for (const coll of user.collections) {  
             if (coll.title === selection) {
                 for (const collPalette of coll.palettes) {
@@ -21,22 +22,14 @@ const CollectionForm = () => {
 
                        return setTimeout(() => {
                         setErrors(false)
-                       }, 2000)
+                       }, 2500)
                     }
                 }
             }
         }
-        fetch(`/collections/${selection}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-type' : 'application/json'
-            },
-            body: JSON.stringify({
-                palette_id: palette.id,
-            })
-        })
-        .then((r) => r.json())
-        .then((data) => dispatch(updateCollection(data)))
+
+        dispatch(addPaletteToCollection({selection: selection, palette: palette}))
+
         
     }
 
@@ -45,8 +38,8 @@ const CollectionForm = () => {
             <form onSubmit={(e) => saveToCollection(e)}>
                 <label >Save to collection:</label>
                 <select className='border-2' onChange={(e) => setSelection(e.target.value)}>
-                    {user.collections.flat().map((collection) => {
-                        return <option  value={collection.title}>{collection.title}</option>
+                    {user.collections.flat().map((collection, index) => {
+                        return <option key={index}  value={collection.title}>{collection.title}</option>
                     })}
                 </select>
                 <input className='border bg-slate-300 rounded-lg px-1' type='submit' value='save'></input>

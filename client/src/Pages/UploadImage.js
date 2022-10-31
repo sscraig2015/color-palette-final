@@ -16,7 +16,7 @@ export function UploadImage() {
   const navigate = useNavigate()
   const palette = useSelector((state) => state.palette.paletteUpload)
   const [images, setImages] = useState(null);
-  console.log(images)
+
   const maxNumber = 1;
   
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import {  useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
@@ -21,11 +21,12 @@ const UserProfile = () => {
 
     
     const user = useSelector(((state) => state.user))
-    const collections = useSelector((state) => state.collections)
+    const collections = useSelector((state) => state.user.collections)
     const palettes = useSelector((state) => state.palette.currentPalettes)
     const popUp = useSelector((state) => state.palette.paletteInfo)
     const [newCollection, setNewCollection] = useState()
     const [collectionPage, setCollectionPage] = useState(0)
+
     
    
    
@@ -38,36 +39,27 @@ const UserProfile = () => {
     }, [user])
   
     
-    function updatePalettes(e){
-        e.preventDefault()
-        const collectionTitle = e.target.innerHTML
+function updatePalettes(e){
+    e.preventDefault()
+    const collectionTitle = e.target.innerHTML
 
 
-        user.collections.flat().map((collection) => {
+    user.collections.flat().map((collection) => {
 
-            if (collection.title === collectionTitle) {
-                dispatch((currentPalettes(collection.palettes)))
-                setSearchParams({page : '1'})
-            }
-        })
-        
+    if (collection.title === collectionTitle) {
+        dispatch((currentPalettes(collection.palettes)))
+        setSearchParams({page : '1'})
     }
+})
 
-      function addCollection(e) {
-        e.preventDefault()
+}
 
-        fetch(`/collections`, {
-            method: 'POST',
-            headers: {
-                'Content-type' : 'application/json'
-            },
-            body: JSON.stringify({
-                title: newCollection,
-            })
-        })
-        .then((r) => r.json())
-        .then((data) => dispatch(createCollection(data)))
-      }
+function addCollection(e) {
+    e.preventDefault()
+
+    dispatch(createCollection(newCollection))
+
+}
     
     if (palettes) {
         return (
@@ -81,11 +73,11 @@ const UserProfile = () => {
                         </form>
                         <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
                         <div className='h-[70%] flex flex-col gap-1 '>
-                            {user.collections[collectionPage].map((collection) => {
-                                    return <CollectionPreview collection={collection}  updatePalettes={updatePalettes}/>
+                            {collections[collectionPage].map((collection, index) => {
+                                    return <CollectionPreview key={index} collection={collection}  updatePalettes={updatePalettes}/>
                             })}                                    
                         </div>
-                        <PaginateCollections collections={user.collections} setCollectionPage={setCollectionPage} page={collectionPage}/>
+                        <PaginateCollections collections={collections} setCollectionPage={setCollectionPage} page={collectionPage}/>
                     </div>
                     <div className='flex flex-col grow h'>
                         <div className='flex flex-wrap justify-start gap-3 grow p-3'>

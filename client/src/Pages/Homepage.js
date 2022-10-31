@@ -1,56 +1,25 @@
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CopyAlert from '../Components/CopyAlert';
+import SaveAlert from '../Components/SavedAlert';
 import UserAction from '../Components/UserAction';
+import ColorTile from '../Components/ColorTile';
 import { homePalette } from '../Slices/paletteSlice'
 
 const Homepage = () => {
   
     const dispatch = useDispatch()
-    const [rgbOrHex, setRGBorHex] = useState(true)
+
     const [savedColors, setSavedColors] = useState([])
     const [mousePos, setMousePos] = useState({})
+    const [saveAlert, setSaveAlert] = useState(false)
     const [alert, setAlert] = useState(false)
 
     const palette = useSelector((state) => state.palette.paletteHome)
-   
-    
-    function ColorToHex(color) {
-      var hexadecimal = color.toString(16);
-      return hexadecimal.length === 1 ? "0" + hexadecimal : hexadecimal;
-    }
-    
-    function ConvertRGBtoHex(red, green, blue) {
-      return "#" + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue);
-    }
-  
-    function convertPalettetoHex(givenPalette){
-      return givenPalette.map((colorRGB) => {
-        return ConvertRGBtoHex(colorRGB[0], colorRGB[1], colorRGB[2])
-      })
-    }
-    
-    function handleClick(){
-      setRGBorHex(!rgbOrHex)
-    }
 
-    function saveValue(e) {
-        e.preventDefault()
-        var copyText = e.target.value
 
-        setMousePos({
-          x : e.clientX,
-          y : e.clientY,
-        })
-        setAlert(true)
 
-        setTimeout(() => {
-          setAlert(false)
-        }, 2500)
 
-        navigator.clipboard.writeText(copyText);
-      
-      }
     
     //Generates new palette on load
     useEffect(() => {
@@ -65,20 +34,6 @@ const Homepage = () => {
           .then((data) => dispatch(homePalette(data)))
       }, [])
 
-  //Locks color in
-  function lockColor(e){
-  
-    let colorNum = e.target.value
-    let lockedColor = palette[colorNum]
-
-    if (e.target.checked){
-      setSavedColors([...savedColors, lockedColor])
-
-    } else {
-      setSavedColors(savedColors.filter((color) => color.toString() !== lockedColor.toString()))
-    }
-
-  }
 
   //Resets user's palette selection
   function resetForm(){
@@ -92,65 +47,45 @@ const Homepage = () => {
 
     //Generates new palette with user's saved colors
     function newPalette(e){
-    e.preventDefault()
-  
-    let userColors = [...savedColors]
+      e.preventDefault()
     
-      if(savedColors.length < 5){
-        while ( userColors.length < 5) {
-          userColors.push("N")
-        }
-      }
-    
-        const options = {
-            method: 'POST',
-            body: JSON.stringify({ 	
-              model : "default",
-              input : userColors})
+      let userColors = [...savedColors]
+      
+        if(savedColors.length < 5){
+          while ( userColors.length < 5) {
+            userColors.push("N")
           }
-          fetch(`http://colormind.io/api/`, options)
-            .then((r) => r.json())
-            .then((data) => dispatch(homePalette(data)))
-            setSavedColors([])
-            resetForm()
+        }
+      
+          const options = {
+              method: 'POST',
+              body: JSON.stringify({ 	
+                model : "default",
+                input : userColors})
+            }
+            fetch(`http://colormind.io/api/`, options)
+              .then((r) => r.json())
+              .then((data) => dispatch(homePalette(data)))
+              setSavedColors([])
+              resetForm()
     }
     
     if(palette){
-        let hexValue = convertPalettetoHex(palette)
+        
         return (
             <div className='h-[80%] w-screen mb-[2%]'>
                 {alert? <CopyAlert mousePos = {mousePos}/> : null }
+                {saveAlert? <SaveAlert mousePos = {mousePos}/> : null}
                 <form className='h-[95%]' id='colorForm'>
                     <div className='w-screen h-[100%] flex'>
-                        {palette.map((color, key) => {
+                        {palette.map((color, index) => {
                             return (
-                                //Color Tile
-                                <div key={key} className='w-[20%] flex flex-col'>
-                                    <div className='h-[80%] grow' style={{ backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`}}>                                     
-                                    </div>
-                                    <div className=' border text-center p-1'>
-                                        <div>
-                                            {!rgbOrHex ? <button className='border-2 px-2 m-1 rounded-md' type='button' onClick={handleClick} >RGB</button> : null } {!rgbOrHex ? <button onClick={saveValue} value={hexValue[key]}>{hexValue[key].toUpperCase()}</button> : null }
-                                            {rgbOrHex ? <button  className='border-2 px-2 m-1 rounded-md' onClick={handleClick} type='button' >HEX</button> : null } {rgbOrHex ? <button onClick={saveValue} value={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}>{`rgb(${color[0]}, ${color[1]}, ${color[2]})`}</button> : null }
-                                        </div>
-                                          <label htmlFor={`lockin${key}`}>Lock in:
-                                            <input
-                                              id={`lockin${key}`}
-                                              type="checkbox"
-                                              name="subscribe"
-                                              value = {key}
-                                              onChange= {lockColor}
-                                            />
-                                          </label>
-                                    </div>
-                                </div>
+                                <ColorTile key={index} index={index} color={color} setSavedColors={setSavedColors} savedColors={savedColors} setMousePos={setMousePos} setAlert={setAlert}/>
                             )
                         })}
                     </div>
-                    
                 </form>
-                
-                <UserAction newPalette={newPalette}/>
+                <UserAction newPalette={newPalette} setSaveAlert={setSaveAlert} setMousePos={setMousePos} />
             </div>
         )
     }

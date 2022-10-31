@@ -1,9 +1,15 @@
 class CollectionsController < ApplicationController
 
     def create
-
+        
         @newColl = current_user.collections.create!(permit_params)
-        render json: @newColl, status: :created
+        
+        if @newColl
+
+            render json: @newColl, status: :created
+        else
+            render json: {error: "Collection title invalid."}, status: 404
+        end
     end
 
     def update

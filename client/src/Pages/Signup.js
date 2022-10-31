@@ -71,7 +71,7 @@ const Signup = () => {
             <Link to='/login' className='underline p-[10px]'>Already have an account?</Link>
           </div>
           
-          <Link className='bg-blue-500 rounded-xl h-10 w-80' to='/home'>Generate palette</Link>
+          <div className=' w-[25%] mx-auto my-5 text-center '><button onClick={() => navigate('/home')} className='bg-blue-500 rounded-xl h-full p-2'>Generate Palette</button></div>
         </div>
       )
 }

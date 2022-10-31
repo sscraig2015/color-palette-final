@@ -29,7 +29,7 @@ const UserProfile = () => {
 
     const [newCollection, setNewCollection] = useState()
     const [collectionPage, setCollectionPage] = useState(0)
-    console.log(palettes)
+
     
    
    

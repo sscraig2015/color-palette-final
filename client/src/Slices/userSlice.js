@@ -111,7 +111,20 @@ const userSlice = createSlice({
         },
         [addPaletteToCollection.fulfilled](state, action){
             //recieves a palette, need to add to appropriate collection
-            console.log(current(state.collections).flat())
+           console.log( action.payload.palettes[0])
+           const updatedCollections = current(state.collections).flat().map((collection) => {
+ 
+            if(collection.title === action.payload.title){
+                    const newCollection = collection
+                    
+                    return newCollection
+
+                } else {
+                   
+                    return collection
+                }
+            })
+            console.log(updatedCollections)
         },
         [createCollection.fulfilled](state, action){
 

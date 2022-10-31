@@ -62,6 +62,10 @@ export const newUserPalette = createAsyncThunk('palettes/newUserPalette', (saved
 
 })
 
+export const fetchLatestPalettes = createAsyncThunk('palettes/fetchLatestPalettes', () => {
+    return fetch(`/api/palettes/latest`)
+        .then((resp) => resp.json())
+})
 
 const paletteSlice = createSlice({
     name: 'palette',
@@ -87,7 +91,15 @@ const paletteSlice = createSlice({
         },
         [newUserPalette.fulfilled](state, action){
             state.paletteHome = action.payload.result
+        },
+        [fetchLatestPalettes.fulfilled](state, action){
+            console.log(action)
+            state.currentPalettes = chunk(action.payload.flat(), 12)
+        },
+        [fetchLatestPalettes.rejected](state, action){
+            console.log(action)
         }
+
     }
 })
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { currentPalettes } from '../Slices/paletteSlice'
+import {  fetchLatestPalettes } from '../Slices/paletteSlice'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
@@ -18,20 +18,10 @@ const Community = () => {
  
 
     useEffect(() => {
-        fetch(`/api/palettes/${params.category}`)
-            
-        .then((r) => {
-            if(r.ok){
-                r.json().then((data) => dispatch(currentPalettes(data)))
-            } else {
-                r.json().then(() => navigate('/oopsie'))
-            }
-        })
-        
+        dispatch(fetchLatestPalettes())
     }, [])
 
     if (palettes) {
-
         return (
             <div className='h-[90%]'>
                 <Header />

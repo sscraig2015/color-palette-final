@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import { useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Navbar from './Components/Navbar';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
@@ -33,7 +33,7 @@ return(
       <Route path='/login' element={<Login/>} />
       <Route path='/signup' element={<Signup/>} />
       <Route path='/users/:id/' element={<UserProfile />} />
-      <Route path='/community/:category/' element={<Community />} />
+      <Route path='/community/latest/' element={<Community />} />
       <Route path='/uploadImage' element={<UploadImage />} />
       <Route path='/oopsie' element={<NotAuthorized /> } />
       <Route path='*' element={<NotAuthorized />} />

@@ -1,7 +1,6 @@
 class CollectionsController < ApplicationController
 
     def create
-        
         @newColl = current_user.collections.create!(permit_params)
         
         if @newColl
@@ -13,13 +12,11 @@ class CollectionsController < ApplicationController
     end
 
     def update
-        
         @collection = current_user.collections.where(title: params[:id]).first
         @collection.palettes << Palette.find_by(id: params[:palette_id])
         
         render json: @collection, status: :ok
 
-        
     end
 
 

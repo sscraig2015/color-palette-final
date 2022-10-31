@@ -26,6 +26,7 @@ function App() {
   useEffect(() => {
 
       dispatch(fetchUser())
+      
       }, []);
 
 return(

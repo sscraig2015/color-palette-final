@@ -1,11 +1,6 @@
 class PalettesController < ApplicationController
 
-    skip_before_action :authorize, only: [:index, :popular, :tag, :show, :search_tag]
-
-    def index
-        @palette = current_user.palettes.order(:created_at)
-        render json: @palette, status: :ok
-    end
+    skip_before_action :authorize, only: [:latest, :tag, :show, :search_tag]
 
     def create
         @palette = @current_user.palettes.create!(params_permit)
@@ -16,7 +11,12 @@ class PalettesController < ApplicationController
         @palette = Palette.find_by!(id: params[:id])
         render json: @palette, status: :ok
     end
-
+    
+    def destroy
+        @palette = current_user.palettes.find_by(id: params[:id])
+        @palette.destroy
+    end
+    
     def update
         @tag = Tag.find_by(name: params[:tag])
         @palette = Palette.find_by(id: params[:id])
@@ -32,14 +32,7 @@ class PalettesController < ApplicationController
 
     end
 
-    def destroy
-        @palette = current_user.palettes.find_by(id: params[:id])
-        @palette.destroy
-        
-    end
-
-
-    def popular
+    def latest
         render json: Palette.all.order(:created_at), status: :ok
     end
 

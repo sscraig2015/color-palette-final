@@ -1,6 +1,6 @@
 import React, {useState}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateCollection, addPaletteToCollection } from '../Slices/userSlice'
+import {  addPaletteToCollection } from '../Slices/userSlice'
 
 const CollectionForm = () => {
   
@@ -19,7 +19,6 @@ const CollectionForm = () => {
                 for (const collPalette of coll.palettes) {
                     if(palette.id === collPalette.id) {
                        setErrors(true)
-
                        return setTimeout(() => {
                         setErrors(false)
                        }, 2500)
@@ -29,7 +28,7 @@ const CollectionForm = () => {
         }
 
         dispatch(addPaletteToCollection({selection: selection, palette: palette}))
-
+        window.location.reload()
         
     }
 

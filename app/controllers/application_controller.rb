@@ -3,12 +3,11 @@ class ApplicationController < ActionController::API
     rescue_from ActiveRecord::RecordInvalid, with: :recordInvalid
     rescue_from ActiveRecord::RecordNotFound, with: :recordNotFound
  
-
+ 
     before_action :authorize
 
     def current_user
-        @current_user ||= User.find_by(id: session[:user_id]) # memoization
-        
+        @current_user ||= User.find_by(id: session[:user_id]) # memoization  
     end
     
     

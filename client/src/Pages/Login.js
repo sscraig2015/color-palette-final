@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
   const [errors, setErrors] = useState()
-
+  console.log(errors)
   function handleUser(e){
     e.preventDefault()
 

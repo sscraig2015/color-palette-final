@@ -1,17 +1,15 @@
 Rails.application.routes.draw do
 resources :collections, only: [:create, :update]
+
 resources :palettes, only: [:create, :show, :destroy, :update]
-
-
-
 #Find community palettes
-get '/api/palettes/popular/', to: 'palettes#popular'
+get '/api/palettes/latest/', to: 'palettes#latest'
 get '/api/palettes/:tag/', to: 'palettes#search_tag'
 
 
 #Signing in
 post '/signin', to: 'sessions#create'
-get '/me', to: 'users#auth'
+get '/me', to: 'users#show'
 
 #Sign up
 post '/signup', to: 'users#create'

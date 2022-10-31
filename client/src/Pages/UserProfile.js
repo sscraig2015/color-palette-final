@@ -71,18 +71,16 @@ if (palettes) {
         return (
         <div className='h-[90%]'>
             <div className='flex h-[90%] w-[95%] mx-auto'>
-                <div className='w-[20%] p-1'>
-                    <form className='border p-1' onSubmit={(e) => addCollection(e)}>
+                <div className='w-[20%] p-1 flex flex-col gap-2'>
+                    <form className='border-4 rounded-md p-1' onSubmit={(e) => addCollection(e)}>
                         <label>Create collection:</label>
                         <input className='border' type='text' value={newCollection} onChange={(e) => setNewCollection(e.target.value)}></input>
-                        <input type='submit' className='cursor-pointer bg-slate-400 rounded-lg px-1'></input>
+                        <input type='submit' className='border bg-slate-300 rounded-lg px-1 cursor-pointer active:bg-slate-500'></input>
                         {errors? <div>{errors}</div> : null}
                     </form>
-                    <div className='cursor-pointer' onClick={(e) => dispatch(currentPalettes(user.palettes))}>All palettes</div>
+                    <div className='cursor-pointer border-4 rounded-md p-2  text-center active:bg-slate-500' onClick={(e) => dispatch(currentPalettes(user.palettes))}>ALL PALETTES</div>
                     <div className='h-[70%] flex flex-col gap-1 '>
                         <UserCollections page={collectionPage} updatePalettes={updatePalettes}/> 
-                        
-                              
                     </div>
                     <PaginateCollections collections={collections} setCollectionPage={setCollectionPage} page={collectionPage}/>
                 </div>

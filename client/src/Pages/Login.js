@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
-import { createSession, fetchUser, resetUserErrors } from '../Slices/userSlice'
+import { createSession, resetUserErrors } from '../Slices/userSlice'
 
 const LoginPage = () => {
   
@@ -13,7 +13,7 @@ const LoginPage = () => {
 
 
 
-  function handleUser(e){
+  function handleUserLogin(e){
     e.preventDefault()
 
     dispatch(createSession({username: username, password: password}))
@@ -35,7 +35,7 @@ const LoginPage = () => {
           <div>
             Sign into your account:
           </div>
-          <form onSubmit={handleUser} className='flex flex-col' >
+          <form onSubmit={handleUserLogin} className='flex flex-col' >
             <label>Username:</label>
               <input name='username' className='border' value={username} onChange={(e) => setUsername(e.target.value)} autoFocus={true}></input>
             <label>Password:</label>

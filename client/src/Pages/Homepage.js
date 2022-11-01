@@ -19,7 +19,6 @@ const Homepage = () => {
 
   //Generates new palette on load
   useEffect(() => {
-
     dispatch(homePalette())
     }, [])
 

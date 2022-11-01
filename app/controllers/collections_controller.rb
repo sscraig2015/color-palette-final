@@ -15,7 +15,7 @@ class CollectionsController < ApplicationController
         @collection = current_user.collections.where(title: params[:id]).first
         @collection.palettes << Palette.find_by(id: params[:palette_id])
         
-        render json: @collection, status: :ok
+        render json: current_user.collections, status: :ok
 
     end
 

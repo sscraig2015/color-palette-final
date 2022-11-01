@@ -14,10 +14,10 @@ const Signup = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
+        
         dispatch(createNewUser({username: username, password:password, passwordConfirmation: passwordConfirmation}))
         .then((r) => {
           if(r.meta.requestStatus === 'fulfilled'){
-            
             dispatch(createSession({username: username, password: password}))
             navigate('/home')
           } else {
@@ -25,28 +25,6 @@ const Signup = () => {
               dispatch(resetUserErrors())
             }, 2500)
           }})
-        // .then((r) => {
-        //     if (r.ok){
-        //       fetch("/signin", {
-        //         method: "POST",
-        //         headers: {
-        //           "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify({
-        //           username,
-        //           password,
-        //         })
-        //       })
-        //       .then((r) => {
-        //           if(r.ok) {
-        //             r.json().then((data) => dispatch(userLogin(data)))
-        //             navigate('/home')
-        //           }
-        //       })
-        //     } else {
-        //         r.json().then((r) => setErrors(r))
-        //     }
-        //   })   
         }
     
     return (

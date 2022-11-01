@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {  useNavigate, useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-
 import SinglePalette from '../Components/SinglePalette'
 import {  currentPalettes  } from '../Slices/paletteSlice'
 import Paginate from '../Components/Paginate'
 import { createCollection } from '../Slices/userSlice'
 import PaginateCollections from '../Components/PaginateCollections'
-import CollectionPreview from '../Components/CollectionPreview'
+
 import UserMain from '../Components/UserMain'
 import UserCollections from '../Components/UserCollections'
 
@@ -27,12 +26,10 @@ const UserProfile = () => {
     const palettes = useSelector((state) => state.palette.currentPalettes)
     const popUp = useSelector((state) => state.palette.paletteInfo)
     const errors = useSelector((state) => state.user.errors)
-
     const [newCollection, setNewCollection] = useState()
     const [collectionPage, setCollectionPage] = useState(0)
 
-    
-   
+
    
    useEffect( () => {
 
@@ -74,7 +71,7 @@ if (palettes) {
                         <label>Create collection:</label>
                         <input className='border' type='text' value={newCollection} onChange={(e) => setNewCollection(e.target.value)}></input>
                         <input type='submit' className='border bg-slate-300 rounded-lg px-1 cursor-pointer active:bg-slate-500'></input>
-                        {errors? <div>{errors}</div> : null}
+                        {errors? <div>{errors.createCollection}</div> : null}
                     </form>
                     <div className='cursor-pointer border-4 rounded-md p-2  text-center active:bg-slate-500' onClick={(e) => dispatch(currentPalettes(user.palettes))}>ALL PALETTES</div>
                     <div className='h-[70%] flex flex-col gap-1 '>

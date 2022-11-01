@@ -89,7 +89,19 @@ export const savePalette = createAsyncThunk('users/savePalette', (hexArray) => {
 
 export const addPaletteToCollection = createAsyncThunk('users/addPaletteToCollection', (data) => {
     
-    const {selection, palette } = data
+    const {selection, palette, user } = data
+
+    user.collections.flat().forEach((coll) => {  
+        if (coll.title === selection) {
+            for (const collPalette of coll.palettes) {
+                if(palette.id === collPalette.id) {
+                  throw new Error('Palette already in collection.')
+                   
+                }
+            }
+        }
+    })
+
     return fetch(`/collections/${selection}`, {
         method: 'PATCH',
         headers: {
@@ -134,9 +146,6 @@ const userSlice = createSlice({
             state.palettes = null
             state.collections = null
         },
-        updateCollection(state, action){
-            const result = current(state).collections.flat().filter(collection => collection.title !== action.payload.title)
-        },
         resetUserErrors(state, action){
             state.errors = null
         }
@@ -167,31 +176,25 @@ const userSlice = createSlice({
         },
         [savePalette.fulfilled](state, action){
             const newPalette = [...current(state.palettes).flat(), action.payload]
-            state.palettes = chunk(newPalette, 5)
+            state.palettes = chunk(newPalette, 4)
         },
         [addPaletteToCollection.fulfilled](state, action){
-            //recieves a palette, need to add to appropriate collection
-           console.log( action.payload.palettes[0])
-           const updatedCollections = current(state.collections).flat().map((collection) => {
- 
-            if(collection.title === action.payload.title){
-                    const newCollection = collection
-                    return newCollection
-                } else {
-                    return collection
-                }
-            })
+        
+            state.collections = chunk(action.payload, 4)
+        },
+        [addPaletteToCollection.rejected](state, action){
+            state.errors = action.error.message
         },
         [createCollection.fulfilled](state, action){
             if(action.payload.error){
-                state.errors = action.payload.error
+                state.errors = {collectionError : action.payload.error}
             } else {
                 const newColl = [...current(state.collections).flat(), action.payload]
-                state.collections = chunk(newColl,5)
+                state.collections = chunk(newColl,4)
             }
         }
     }
 })
 
-export const { userLogin, userLogout, updateCollection, resetUserErrors } = userSlice.actions
+export const { userLogin, userLogout, updateCollection, resetUserErrors, updateUserCollections } = userSlice.actions
 export default userSlice.reducer

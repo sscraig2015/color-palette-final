@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import {  fetchLatestPalettes } from '../Slices/paletteSlice'
 import MultiplePalettes from '../Components/MultiplePalettes'
 import SinglePalette from '../Components/SinglePalette'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Header from '../Components/Header'
 
 const Community = () => {
   
     const dispatch = useDispatch()
-    const params = useParams()
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
     const page = searchParams.get('page')

@@ -10,11 +10,24 @@ const initialState = {
     paletteInfo : null,
     currentPalettes: null,
     paletteUpload: null,
+    errors: null,
 }
 
 export const addTag = createAsyncThunk('palettes/addTag', (data) => {
     
-    const {id, tag} = data
+    const {id, tag, palette} = data
+    
+    if(tag.trim().length === 0){
+        throw new Error('Tag can not be blank.')
+    }
+    
+    for (const oldTag of palette.tags) {
+        if(oldTag.name.trim() === tag.trim()) {
+            console.log('tag tekn')
+            throw new Error('Palette already has this tag.')
+        }         
+    }
+
     return fetch(`/palettes/${id}`, {
         method: 'PATCH',
         headers: {
@@ -79,11 +92,18 @@ const paletteSlice = createSlice({
         },
         uploadPalette(state, action){
             state.paletteUpload = action.payload
+        },
+        resetPaletteErrors(state, action){
+            state.errors = null
         }
     },
     extraReducers: {
         [addTag.fulfilled](state, action) {
             state.paletteInfo.tags = action.payload.tags
+        },
+        [addTag.rejected](state, action) {
+
+            state.errors = action.error.message
         },
         [homePalette.fulfilled](state, action){
             state.paletteHome = action.payload.result
@@ -102,5 +122,5 @@ const paletteSlice = createSlice({
     }
 })
 
-export const { paletteInfo, uploadPalette, currentPalettes } = paletteSlice.actions
+export const { paletteInfo, uploadPalette, currentPalettes, resetPaletteErrors } = paletteSlice.actions
 export default paletteSlice.reducer

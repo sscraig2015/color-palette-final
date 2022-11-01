@@ -12,9 +12,11 @@ class ApplicationController < ActionController::API
         end
     end
     
+    
     private
 
     def recordNotFound
+        
         render json: { errors: ["User not found."]}, status: :not_found
     end
 

@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from "react-redux";
-import { fetchUser, userLogin } from '../Slices/userSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { createSession, fetchUser, resetUserErrors } from '../Slices/userSlice'
 
 const LoginPage = () => {
   
@@ -9,36 +9,41 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   const [username, setUsername] = useState()
   const [password, setPassword] = useState()
-  const [errors, setErrors] = useState()
-  console.log(errors)
+  const errors = useSelector((state) => state.user.errors)
+
+  // useEffect(() => {
+  //   setTimeout(() =>
+  //     dispatch()
+  // }, [errors])
+
   function handleUser(e){
     e.preventDefault()
 
-    fetch("/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-      })
-    })
-      .then((r) => {
-        if(r.ok) {
-          dispatch(fetchUser())
-          navigate('/home')
+    dispatch(createSession({username: username, password: password}))
+    .then((r) => {
+      if(r.meta.requestStatus === 'fulfilled'){
+        navigate('/home')
+      } else {
+        setTimeout(() => {
+          dispatch(resetUserErrors())
+        }, 2500)
+      }})
+    
+      // .then((r) => {
+      //   if(r.ok) {
+      //     dispatch(fetchUser())
+      //     navigate('/home')
           
-        } else {
-          r.json().then((r) => {
-            setErrors(r)
+      //   } else {
+      //     r.json().then((r) => {
+      //       setErrors(r)
 
-            setTimeout(() => {
-              setErrors(false)
-            }, 2500)
-          })
-        }
-      })
+      //       setTimeout(() => {
+      //         setErrors(false)
+      //       }, 2500)
+      //     })
+      //   }
+      // })
   }
   
   return (
@@ -55,7 +60,7 @@ const LoginPage = () => {
               <input className='border' type='password' name='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
             <input type='submit' className='cursor-pointer border bg-slate-300 mt-3'/>
           </form>
-          {errors? <div>{errors.errors}</div> : null }
+          {errors? <div>{errors}</div> : null }
         </div>
           <Link to='/signup' className='underline p-[10px]'>Create account?</Link>
       </div>

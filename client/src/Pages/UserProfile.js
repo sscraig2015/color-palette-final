@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import SinglePalette from '../Components/SinglePalette'
 import {  currentPalettes  } from '../Slices/paletteSlice'
 import Paginate from '../Components/Paginate'
-import { createCollection } from '../Slices/userSlice'
+import { createCollection, resetUserErrors } from '../Slices/userSlice'
 import PaginateCollections from '../Components/PaginateCollections'
 
 import UserMain from '../Components/UserMain'
@@ -59,7 +59,13 @@ function addCollection(e) {
     e.preventDefault()
 
     dispatch(createCollection(newCollection))
-
+    .then((r) => {
+        if(!r.ok){
+            setTimeout(() => {
+                dispatch(resetUserErrors())
+            }, 2500)
+        }
+    })
 }
     
 if (palettes) {
@@ -71,7 +77,7 @@ if (palettes) {
                         <label>Create collection:</label>
                         <input className='border' type='text' value={newCollection} onChange={(e) => setNewCollection(e.target.value)}></input>
                         <input type='submit' className='border bg-slate-300 rounded-lg px-1 cursor-pointer active:bg-slate-500'></input>
-                        {errors? <div>{errors.createCollection}</div> : null}
+                        {errors? <div>{errors}</div> : null}
                     </form>
                     <div className='cursor-pointer border-4 rounded-md p-2  text-center active:bg-slate-500' onClick={(e) => dispatch(currentPalettes(user.palettes))}>ALL PALETTES</div>
                     <div className='h-[70%] flex flex-col gap-1 '>

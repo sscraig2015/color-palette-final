@@ -6,14 +6,9 @@ import { convertPalettetoHex } from '../Features/ConvertColor'
 const UserAction = ({newPalette, setSaveAlert, setMousePos}) => {
   
   const dispatch = useDispatch()
-  
   const user = useSelector((state) => state.user)
   const palette = useSelector((state) => state.palette.paletteHome)
 
-
-
-
-  // Creates palette in hex to the backend
   function handleSave(e){
     const hexArray = convertPalettetoHex(palette)
     
@@ -31,8 +26,7 @@ const UserAction = ({newPalette, setSaveAlert, setMousePos}) => {
 
   }
   
-  
-  
+
   return (
 
         <div className='flex justify-center gap-2 h-[8%] my-2'>

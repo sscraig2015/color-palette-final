@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { joinPaths } from "@remix-run/router";
 
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
@@ -67,8 +68,6 @@ export const createSession = createAsyncThunk('/users/createSession', (data) => 
 
 export const deletePalette = createAsyncThunk('users/deletePalette', (data) => {
     
-    
-
     return fetch(`/palettes/${data.id}`,{
         method: 'DELETE',
     })
@@ -137,7 +136,13 @@ export const createCollection = createAsyncThunk('users/createCollection', (newC
             title: newCollection,
         })
     })
-    .then((r) => r.json())
+    .then((r) => {
+        if(r.ok){
+            return r.json()
+        } else {
+            return r.json().then((data) => {throw new Error(data.errors)})
+        }
+    })
 })
 
 
@@ -198,12 +203,12 @@ const userSlice = createSlice({
             state.collections = chunk(action.payload, 4)
         },
         [createCollection.fulfilled](state, action){
-            if(action.payload.error){
-                state.errors = {collectionError : action.payload.error}
-            } else {
-                const newColl = [...current(state.collections).flat(), action.payload]
-                state.collections = chunk(newColl,4)
-            }
+            const newColl = [...current(state.collections).flat(), action.payload]
+            state.collections = chunk(newColl,4)
+        },
+        [createCollection.rejected](state, action){
+
+            state.errors = action.error.message
         }
     }
 })

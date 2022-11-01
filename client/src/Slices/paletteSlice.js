@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
@@ -23,7 +23,7 @@ export const addTag = createAsyncThunk('palettes/addTag', (data) => {
     
     for (const oldTag of palette.tags) {
         if(oldTag.name.trim() === tag.trim()) {
-            console.log('tag tekn')
+
             throw new Error('Palette already has this tag.')
         }         
     }
@@ -99,10 +99,18 @@ const paletteSlice = createSlice({
     },
     extraReducers: {
         [addTag.fulfilled](state, action) {
-            state.paletteInfo.tags = action.payload.tags
+            console.log(action)
+
+            action.payload.palettes.forEach((palette) => {
+                if(palette.id === action.meta.arg.id) {
+                    state.paletteInfo.tags = palette.tags
+                }
+            })
+
+            // state.paletteInfo.tags = action.payload.palettes.tags
+            state.currentPalettes = chunk(action.payload.palettes, 12)
         },
         [addTag.rejected](state, action) {
-
             state.errors = action.error.message
         },
         [homePalette.fulfilled](state, action){
@@ -112,7 +120,7 @@ const paletteSlice = createSlice({
             state.paletteHome = action.payload.result
         },
         [fetchLatestPalettes.fulfilled](state, action){
-            console.log(action)
+            
             state.currentPalettes = chunk(action.payload.flat(), 12)
         },
         [fetchLatestPalettes.rejected](state, action){

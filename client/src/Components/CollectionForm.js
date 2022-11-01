@@ -38,7 +38,6 @@ const CollectionForm = () => {
         })
     }
 
-
     return (
         <div>
             <form className='flex justify-end' onSubmit={(e) => saveToCollection(e)}>

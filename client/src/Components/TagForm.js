@@ -12,16 +12,12 @@ const TagForm = () => {
     const palette = useSelector((state) => state.palette.paletteInfo)
     const dispatch = useDispatch()
 
-    
-
-    
-
     function newTag(e){
         e.preventDefault()
         dispatch(addTag({id: palette.id, tag: tag.trim(), palette: palette}))
         .then((r) => {
             if(r.meta.requestStatus === 'fulfilled'){
-              console.log(r)
+              console.log('add tag success')
             } else {
               setTimeout(() => {
                 dispatch(resetPaletteErrors())

@@ -25,15 +25,13 @@ const CollectionForm = () => {
                 if(coll.palettes.length === 0){
                     dispatch(addPaletteToCollection({selection: selection, palette: palette}))
                 } else {
-                coll.palettes.forEach((collPallete) => {
-                    if(palette.id === collPallete.id) {
-                        console.log('palettes saved')
+                    if(coll.palettes.some(collPallete => palette.id === collPallete.id)){  
+
                         setErrors('Palette already saved')
                     } else {
+
                         dispatch(addPaletteToCollection({selection: selection, palette: palette}))
-                        
-                    }
-                })                    
+                    }                     
                 }
 
             }

@@ -88,20 +88,8 @@ export const savePalette = createAsyncThunk('users/savePalette', (hexArray) => {
 })
 
 export const addPaletteToCollection = createAsyncThunk('users/addPaletteToCollection', (data) => {
-    
-    const {selection, palette, user } = data
 
-    user.collections.flat().forEach((coll) => {  
-        if (coll.title === selection) {
-            for (const collPalette of coll.palettes) {
-                if(palette.id === collPalette.id) {
-                  throw new Error('Palette already in collection.')
-                   
-                }
-            }
-        }
-    })
-
+    const {selection , palette } = data
     return fetch(`/collections/${selection}`, {
         method: 'PATCH',
         headers: {
@@ -179,11 +167,7 @@ const userSlice = createSlice({
             state.palettes = chunk(newPalette, 4)
         },
         [addPaletteToCollection.fulfilled](state, action){
-        
             state.collections = chunk(action.payload, 4)
-        },
-        [addPaletteToCollection.rejected](state, action){
-            state.errors = action.error.message
         },
         [createCollection.fulfilled](state, action){
             if(action.payload.error){

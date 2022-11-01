@@ -1,5 +1,6 @@
-import React, {useState}from 'react'
+import React, {useEffect, useState}from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { newUserPalette } from '../Slices/paletteSlice'
 import {  addPaletteToCollection, resetUserErrors, updateUserCollections } from '../Slices/userSlice'
 
 const CollectionForm = () => {
@@ -7,22 +8,38 @@ const CollectionForm = () => {
     const dispatch = useDispatch()
     const palette = useSelector((state) => state.palette.paletteInfo)
     const user = useSelector((state) => state.user)
-    const errors = useSelector((state) => state.user.errors)
+    const [errors, setErrors] = useState(null)
     const [selection, setSelection] = useState()
     
+    useEffect(() => {
+        setTimeout(() => {
+            setErrors(null)
+        }, 2500)
+    }, [errors])
+
     function saveToCollection(e){
         e.preventDefault()
         
-        dispatch(addPaletteToCollection({selection: selection, palette: palette, user:user}))
-        .then((r) => {
-            if(r.meta.requestStatus === 'fulfilled'){
-                console.log('updated collection')
-            } else {
-                setTimeout(() => {
-                    dispatch(resetUserErrors())
-                }, 2500)
-            }})
+        user.collections.flat().forEach((coll) => {  
+            if (coll.title === selection) {
+                if(coll.palettes.length === 0){
+                    dispatch(addPaletteToCollection({selection: selection, palette: palette}))
+                } else {
+                coll.palettes.forEach((collPallete) => {
+                    if(palette.id === collPallete.id) {
+                        console.log('palettes saved')
+                        setErrors('Palette already saved')
+                    } else {
+                        dispatch(addPaletteToCollection({selection: selection, palette: palette}))
+                        
+                    }
+                })                    
+                }
+
+            }
+        })
     }
+
 
     return (
         <div>

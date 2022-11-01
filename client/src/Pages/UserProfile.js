@@ -37,7 +37,6 @@ const UserProfile = () => {
    useEffect( () => {
 
         if(user.id){
-            console.log('first')
             dispatch(currentPalettes(user.palettes))
         }
 
@@ -52,7 +51,6 @@ function updatePalettes(e){
     user.collections.flat().forEach((collection) => {
 
      if (collection.title === collectionTitle) {
-        console.log('update palettes')
         dispatch((currentPalettes(collection.palettes)))
         setSearchParams({page : '1'})
     }

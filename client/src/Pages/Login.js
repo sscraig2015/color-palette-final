@@ -11,10 +11,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState()
   const errors = useSelector((state) => state.user.errors)
 
-  // useEffect(() => {
-  //   setTimeout(() =>
-  //     dispatch()
-  // }, [errors])
+
 
   function handleUser(e){
     e.preventDefault()
@@ -29,21 +26,6 @@ const LoginPage = () => {
         }, 2500)
       }})
     
-      // .then((r) => {
-      //   if(r.ok) {
-      //     dispatch(fetchUser())
-      //     navigate('/home')
-          
-      //   } else {
-      //     r.json().then((r) => {
-      //       setErrors(r)
-
-      //       setTimeout(() => {
-      //         setErrors(false)
-      //       }, 2500)
-      //     })
-      //   }
-      // })
   }
   
   return (

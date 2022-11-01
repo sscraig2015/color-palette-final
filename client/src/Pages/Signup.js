@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useDispatch } from "react-redux";
-import { userLogin } from '../Slices/userSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { createNewUser, createSession, resetUserErrors } from '../Slices/userSlice'
 
 const Signup = () => {
     
@@ -10,44 +10,43 @@ const Signup = () => {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [passwordConfirmation, setPasswordConfirmation] = useState()
-    const [errors, setErrors] = useState()
+    const errors = useSelector((state) => state.user.errors)
 
     function handleSubmit(e) {
         e.preventDefault();
-        
-        fetch("/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-            password_confirmation: passwordConfirmation,
-          }),
-        })
+        dispatch(createNewUser({username: username, password:password, passwordConfirmation: passwordConfirmation}))
         .then((r) => {
-            if (r.ok){
-              fetch("/signin", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  username,
-                  password,
-                })
-              })
-              .then((r) => {
-                  if(r.ok) {
-                    r.json().then((data) => dispatch(userLogin(data)))
-                    navigate('/home')
-                  }
-              })
-            } else {
-                r.json().then((r) => setErrors(r))
-            }
-          })   
+          if(r.meta.requestStatus === 'fulfilled'){
+            
+            dispatch(createSession({username: username, password: password}))
+            navigate('/home')
+          } else {
+            setTimeout(() => {
+              dispatch(resetUserErrors())
+            }, 2500)
+          }})
+        // .then((r) => {
+        //     if (r.ok){
+        //       fetch("/signin", {
+        //         method: "POST",
+        //         headers: {
+        //           "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify({
+        //           username,
+        //           password,
+        //         })
+        //       })
+        //       .then((r) => {
+        //           if(r.ok) {
+        //             r.json().then((data) => dispatch(userLogin(data)))
+        //             navigate('/home')
+        //           }
+        //       })
+        //     } else {
+        //         r.json().then((r) => setErrors(r))
+        //     }
+        //   })   
         }
     
     return (
@@ -66,7 +65,7 @@ const Signup = () => {
                       <input className='border' type='password' name='password' value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)}></input>
                 <input type='submit' className='cursor-pointer border bg-slate-300 mt-3'/>
               </form>
-              {errors? <div>{errors.error}</div> : null }
+              {errors? <div>{errors}</div> : null }
             </div>
             <Link to='/login' className='underline p-[10px]'>Already have an account?</Link>
           </div>

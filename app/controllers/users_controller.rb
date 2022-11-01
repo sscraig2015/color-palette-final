@@ -12,17 +12,6 @@ class UsersController < ApplicationController
         render json: @currentUser, include: [['collections', 'collections.palettes'], ['palettes', 'palettes.tags']],  status: :ok
     end
 
-    # def show
-    #     @currentUser = User.find_by!(username: params[:username])
-    #     render json: @currentUser, status: :ok
-    # end
-
-    # def index
-    #     @user = User.find_by!(id: params[:id])
-    #     render json: @user, status: :ok
-    # end
-
-
     private
 
     def user_params

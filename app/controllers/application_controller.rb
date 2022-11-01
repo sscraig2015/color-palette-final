@@ -27,6 +27,6 @@ class ApplicationController < ActionController::API
 
     def recordInvalid(error)
         @length = error.to_s.length
-        render json: { error: [error.to_s[19..@length] ] }, status: :not_found
+        render json: { errors: [error.to_s[19..@length] ] }, status: :not_acceptable
     end
 end

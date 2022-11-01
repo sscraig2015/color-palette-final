@@ -21,6 +21,29 @@ export const fetchUser = createAsyncThunk('users/fetchUser', () => {
         .then((r) => r.json())
 })
 
+export const createNewUser = createAsyncThunk('users/createNewUser', (data) => {
+    
+    const { username, password, passwordConfirmation} = data
+    return fetch("/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          password_confirmation: passwordConfirmation,
+        }),
+      })
+      .then((r) => {
+        if(r.ok){
+            console.log('r okay')
+        } else {
+            return r.json().then((data) => {throw new Error(data.errors)})
+        }
+      })
+})
+
 export const createSession = createAsyncThunk('/users/createSession', (data) => {
     
     const {username, password} = data
@@ -39,7 +62,8 @@ export const createSession = createAsyncThunk('/users/createSession', (data) => 
         if(r.ok){
             return r.json()
         } else {
-            throw new Error("Invalid username or password.")
+            return r.json().then((data) => {throw new Error(data.errors)})
+
         }
       })
 })
@@ -103,7 +127,6 @@ const userSlice = createSlice({
             state.username = action.payload.username
             state.palettes = action.payload.palettes
             state.collections = action.payload.collections
-
         },
         userLogout(state, action) {
             state.id = null
@@ -123,15 +146,23 @@ const userSlice = createSlice({
             state.id = action.payload.id
             state.username = action.payload.username
             state.palettes = chunk(action.payload.palettes, 12)
-            state.collections = chunk(action.payload.collections, 5)
+            state.collections = chunk(action.payload.collections, 4)
+        },
+        [createNewUser.fulfilled](state, action){
+            console.log(action)
+        },
+        [createNewUser.rejected](state, action){
+            state.errors = action.error.message
         },
         [createSession.fulfilled](state, action) {
+            console.log(action, 'fulfilled')
             state.id = action.payload.id
             state.username = action.payload.username
-            state.palettes = action.payload.palettes
-            state.collections = action.payload.collections
+            state.palettes = chunk(action.payload.palettes, 12)
+            state.collections = chunk(action.payload.collections, 4)
         },
         [createSession.rejected](state, action) {
+            console.log(action, 'rejected')
             state.errors = action.error.message
         },
         [savePalette.fulfilled](state, action){
@@ -162,5 +193,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { userLogin, userLogout, updateCollection,resetUserErrors } = userSlice.actions
+export const { userLogin, userLogout, updateCollection, resetUserErrors } = userSlice.actions
 export default userSlice.reducer

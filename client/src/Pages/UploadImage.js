@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {  useDispatch, useSelector } from 'react-redux';
 import ImageUploading from 'react-images-uploading';
 import { uploadPalette } from '../Slices/paletteSlice';
+import { saveUploadPalette } from '../Slices/userSlice';
 import UploadImagePalette from '../Components/UploadImagePalette';
 import  ColorThief  from 'colorthief'
 import {useNavigate} from 'react-router-dom'
@@ -42,20 +43,10 @@ export function UploadImage() {
   }, [images])
 
   function savePalette(){
+    
     const hexArray = convertPalettetoHex(palette)
-
-    fetch('/palettes', {
-      method: "POST",
-      headers: {
-        'Content-type' : 'application/json'
-      },
-      body: JSON.stringify({
-        hexValues: hexArray,
-        tags: [],
-
-      })
-    })
-    .then((r) => r.json()).then((data) => console.log(data))
+    
+    dispatch(saveUploadPalette({hexArray}))
   }
 
   return (

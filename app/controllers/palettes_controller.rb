@@ -4,7 +4,7 @@ class PalettesController < ApplicationController
 
     def create
         @palette = @current_user.palettes.create!(params_permit)
-        render json: @palette, status: :created
+        render json: @current_user.palettes, status: :created
     end
 
     def show

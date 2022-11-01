@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
@@ -75,6 +75,7 @@ export const newUserPalette = createAsyncThunk('palettes/newUserPalette', (saved
 
 })
 
+
 export const fetchLatestPalettes = createAsyncThunk('palettes/fetchLatestPalettes', () => {
     return fetch(`/api/palettes/latest`)
         .then((resp) => resp.json())
@@ -99,15 +100,11 @@ const paletteSlice = createSlice({
     },
     extraReducers: {
         [addTag.fulfilled](state, action) {
-            console.log(action)
-
             action.payload.palettes.forEach((palette) => {
                 if(palette.id === action.meta.arg.id) {
                     state.paletteInfo.tags = palette.tags
                 }
             })
-
-            // state.paletteInfo.tags = action.payload.palettes.tags
             state.currentPalettes = chunk(action.payload.palettes, 12)
         },
         [addTag.rejected](state, action) {

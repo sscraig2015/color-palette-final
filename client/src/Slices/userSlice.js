@@ -87,6 +87,24 @@ export const savePalette = createAsyncThunk('users/savePalette', (hexArray) => {
       .then((r) => r.json())
 })
 
+export const saveUploadPalette = createAsyncThunk('/palettes/saveUploadPalette', (data) => {
+    
+    const { hexArray } = data
+
+    return fetch('/palettes', {
+        method: "POST",
+        headers: {
+          'Content-type' : 'application/json'
+        },
+        body: JSON.stringify({
+          hexValues: hexArray,
+          tags: [],
+  
+        })
+      })
+      .then((r) => r.json())
+})
+
 export const addPaletteToCollection = createAsyncThunk('users/addPaletteToCollection', (data) => {
 
     const {selection , palette } = data
@@ -163,8 +181,10 @@ const userSlice = createSlice({
             state.errors = action.error.message
         },
         [savePalette.fulfilled](state, action){
-            const newPalette = [...current(state.palettes).flat(), action.payload]
-            state.palettes = chunk(newPalette, 4)
+            state.palettes = chunk(action.payload, 12)
+        },
+        [saveUploadPalette.fulfilled](state, action){
+            state.palettes = chunk(action.payload, 12)
         },
         [addPaletteToCollection.fulfilled](state, action){
             state.collections = chunk(action.payload, 4)

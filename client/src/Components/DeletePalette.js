@@ -1,21 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { paletteInfo } from '../Slices/paletteSlice'
+import { deletePalette } from '../Slices/userSlice'
 
 const DeletePalette = () => {
 
+    const dispatch = useDispatch()
     const palette = useSelector((state) => state.palette.paletteInfo)
-    const user = useSelector((state) => state.user)
-
 
     function handleClick(){
-        const response = window.confirm("Are you sure? This can not be undone.")
-        
-        if (response) {
-            console.log('delete')
-            fetch(`/palettes/${palette.id}`,{
-                method: 'DELETE',
-            })
-            .then(window.location.reload())
+
+        if (window.confirm("Are you sure? This can not be undone.")) {
+          
+          dispatch(deletePalette(palette))
+          .then(dispatch(paletteInfo(null)))
         }
     }
   return (

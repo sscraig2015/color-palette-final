@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+
 import { useSelector } from 'react-redux'
+
 import { convertPalettetoHex } from '../Features/ConvertColor'
 
 const ColorTile = ( { index, color, setSavedColors, savedColors, setMousePos, setAlert }) => {

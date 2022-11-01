@@ -15,6 +15,7 @@ class PalettesController < ApplicationController
     def destroy
         @palette = current_user.palettes.find_by(id: params[:id])
         @palette.destroy
+        render json: current_user.palettes, status: :ok
     end
     
     def update

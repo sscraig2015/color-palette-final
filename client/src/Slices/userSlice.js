@@ -1,7 +1,4 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
-
-
 
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
@@ -67,8 +64,16 @@ export const createSession = createAsyncThunk('/users/createSession', (data) => 
         }
       })
 })
-export const signUp = createAsyncThunk('users/signUp', () => {
+
+export const deletePalette = createAsyncThunk('users/deletePalette', (data) => {
     
+    
+
+    return fetch(`/palettes/${data.id}`,{
+        method: 'DELETE',
+    })
+    .then((r) => r.json())
+
 })
 
 export const savePalette = createAsyncThunk('users/savePalette', (hexArray) => {
@@ -184,6 +189,9 @@ const userSlice = createSlice({
             state.palettes = chunk(action.payload, 12)
         },
         [saveUploadPalette.fulfilled](state, action){
+            state.palettes = chunk(action.payload, 12)
+        },
+        [deletePalette.fulfilled](state, action){
             state.palettes = chunk(action.payload, 12)
         },
         [addPaletteToCollection.fulfilled](state, action){

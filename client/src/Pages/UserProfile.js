@@ -32,19 +32,15 @@ const UserProfile = () => {
 
    
    useEffect( () => {
-
         if(user.id){
             dispatch(currentPalettes(user.palettes))
         }
-
     }, [user])
   
     
 function updatePalettes(e){
     e.preventDefault()
     const collectionTitle = e.target.innerHTML
-
-
     user.collections.flat().forEach((collection) => {
 
      if (collection.title === collectionTitle) {
@@ -66,6 +62,7 @@ function addCollection(e) {
             }, 2500)
         }
     })
+    setNewCollection('')
 }
     
 if (palettes) {

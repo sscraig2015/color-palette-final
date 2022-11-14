@@ -23,7 +23,7 @@ const TagForm = () => {
                 dispatch(resetPaletteErrors())
               }, 2500)
             }})
-
+            setTag('')
     }
   
     return (

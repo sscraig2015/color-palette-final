@@ -42,6 +42,8 @@ const Header = () => {
 
             }
         })
+
+        setSearch('')
     }
 
         return (

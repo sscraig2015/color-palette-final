@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {  useDispatch, useSelector } from 'react-redux';
 import ImageUploading from 'react-images-uploading';
-import { 
-  uploadPalette } from '../Slices/paletteSlice';
+import { uploadPalette } from '../Slices/paletteSlice';
 import { saveUploadPalette } from '../Slices/userSlice';
 import UploadImagePalette from '../Components/UploadImagePalette';
 import  ColorThief  from 'colorthief'

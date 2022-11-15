@@ -13,6 +13,7 @@ import Homepage from './Pages/Homepage';
 import NotAuthorized from './Pages/NotAuthorized';
 
 import { fetchUser } from './Slices/userSlice'
+import { homePalette } from './Slices/paletteSlice'
 
 
 function App() {
@@ -25,6 +26,11 @@ function App() {
       dispatch(fetchUser())
       
       }, []);
+
+        //Generates new palette on load
+  useEffect(() => {
+    dispatch(homePalette())
+    }, [])
 
 return(
   <div className='h-screen w-screen'>

@@ -10,7 +10,7 @@ const UserAction = ({newPalette, setSaveAlert, setMousePos}) => {
   const palette = useSelector((state) => state.palette.paletteHome)
 
   function handleSave(e){
-    const hexArray = convertPalettetoHex(palette)
+    // const hexArray = convertPalettetoHex(palette)
     
     setMousePos({
       x : e.clientX,
@@ -18,7 +18,7 @@ const UserAction = ({newPalette, setSaveAlert, setMousePos}) => {
     })
     setSaveAlert(true)
 
-    dispatch(savePalette(hexArray))
+    dispatch(savePalette(palette))
 
     setTimeout(() => {
       setSaveAlert(false)

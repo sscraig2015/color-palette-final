@@ -18,10 +18,7 @@ const Homepage = () => {
 
   const palette = useSelector((state) => state.palette.paletteHome)
 
-  //Generates new palette on load
-  useEffect(() => {
-    dispatch(homePalette())
-    }, [])
+
 
 
   //Resets user's palette selection

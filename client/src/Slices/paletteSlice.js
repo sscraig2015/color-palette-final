@@ -42,14 +42,65 @@ export const addTag = createAsyncThunk('palettes/addTag', (data) => {
 
 export const homePalette = createAsyncThunk('palettes/homePalette', () => {
 
+
+
     const options = {
         method: 'POST',
-        body: JSON.stringify({ 	
-          model : "default",
-          input : ["N","N","N","N","N"]})
-      }
-      return fetch(`http://colormind.io/api/`, options)
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({
+            mode: "transformer", 
+            num_colors: 5, 
+            temperature: "1.2", 
+            num_results: 1, 
+            adjacency: [
+                "0",
+                "65",
+                "45",
+                "35",
+                "65",
+                "0",
+                "35",
+                "65",
+                "45",
+                "35",
+                "0",
+                "35",
+                "35",
+                "65",
+                "35",
+                "0",
+                "65",
+                "45",
+                "35",
+                "0",
+                "35",
+                "35",
+                "65",
+                "35",
+                "0"
+                
+            ],
+            palette: [
+                "-",
+                "-",
+                "-",
+                "-",
+                "-"
+            ] 
+        })
+    }
+
+    return fetch(`https://api.huemint.com/color`, options)
         .then((r) => r.json())
+
+    // const options = {
+    //     method: 'POST',
+    //     body: JSON.stringify({ 	
+    //       model : "default",
+    //       input : ["N","N","N","N","N"]})
+    //   }
+    //   return fetch(`http://colormind.io/api/`, options)
+    //     .then((r) => r.json())
         
 })
 
@@ -111,7 +162,8 @@ const paletteSlice = createSlice({
             state.errors = action.error.message
         },
         [homePalette.fulfilled](state, action){
-            state.paletteHome = action.payload.result
+            console.log(action)
+            state.paletteHome = action.payload.results[0].palette
         },
         [newUserPalette.fulfilled](state, action){
             state.paletteHome = action.payload.result

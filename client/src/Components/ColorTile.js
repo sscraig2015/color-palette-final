@@ -50,7 +50,7 @@ const ColorTile = ( { index, color, setSavedColors, savedColors, setMousePos, se
 
   return (
     <div key={index} className='w-[20%] flex flex-col'>
-      <div className='h-[80%] grow' style={{ backgroundColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`}} />
+      <div className='h-[80%] grow' style={{ backgroundColor: color}} />
       <div className=' border text-center w-full p-1'>
         <div>
             {!rgbOrHex ? <button className='border-2 px-2 m-1 rounded-md' type='button' onClick={handleClick} >RGB</button> : null } {!rgbOrHex ? <button onClick={saveValue} value={hexValue[index]}>{hexValue[index].toUpperCase()}</button> : null }

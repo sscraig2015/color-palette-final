@@ -29,7 +29,7 @@ Upload an image and receive that images' palette.
 
 ## Tech
 
-<img src='public/Images/redux.png' width="100" height="38"/> 
+<img src='public/Images/redux.png' width="80" height="80"/> <img src='public/Images/react.png' width="80" height="80"/> <img src='public/Images/tailwind.png' width="80" height="80"/> <img src='public/Images/rails.png' width="100" height="80"/> 
 
 ## Shoutouts
 

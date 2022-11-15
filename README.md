@@ -29,7 +29,7 @@ Upload an image and receive that images' palette.
 
 ## Tech
 
-![react](public/Images/react.png) ![redux](public/Images/redux.png) ![tailwind](public/Images/tailwind.png) ![rails](public/Images/rails.png)
+![react](public/Images/react.png | width=100) ![redux](public/Images/redux.png  | width=100 ) ![tailwind](public/Images/tailwind.png  | width=100 ) ![rails](public/Images/rails.png | width=100 )
 
 ## Shoutouts
 

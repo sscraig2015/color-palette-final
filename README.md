@@ -12,8 +12,24 @@ Here you can generate a new palette at random or save colors you like and a pale
 
 ![home_screen](public/Images/homescreen.png)
 
+### Your page
+Store all of your saved palettes and create collections.
+
+![your_page](public/Images/userspage.png)
+
+### Community
+Browse what others have been saving. Search for a particular "tag".
+
+![community](public/Images/browsescreen.png)
+
+### Upload Image
+Upload an image and receive that images' palette. 
+
+![upload](public/Images/uploadimage.png)
+
 ## Tech
 
+![react](public/Images/react.png) ![redux](public/Images/redux.png) ![tailwind](public/Images/tailwind.png) ![rails](public/Images/rails.png)
 
 ## Shoutouts
 

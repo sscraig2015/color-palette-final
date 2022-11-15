@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 
 import { useSelector } from 'react-redux'
 
-import { convertPalettetoHex } from '../Features/ConvertColor'
+import { hexToRGB } from '../Features/ConvertColor'
 
 const ColorTile = ( { index, color, setSavedColors, savedColors, setMousePos, setAlert }) => {
   
   const [rgbOrHex, setRGBorHex] = useState(true)
   const palette = useSelector((state) => state.palette.paletteHome)
-  let hexValue = convertPalettetoHex(palette)
+  let rgbValue = hexToRGB(color)
+  console.log(rgbValue)
 
+  
   function handleClick(){
     setRGBorHex(!rgbOrHex)
   }
@@ -53,13 +55,13 @@ const ColorTile = ( { index, color, setSavedColors, savedColors, setMousePos, se
       <div className='h-[80%] grow' style={{ backgroundColor: color}} />
       <div className=' border text-center w-full p-1'>
         <div>
-            {!rgbOrHex ? <button className='border-2 px-2 m-1 rounded-md' type='button' onClick={handleClick} >RGB</button> : null } {!rgbOrHex ? <button onClick={saveValue} value={hexValue[index]}>{hexValue[index].toUpperCase()}</button> : null }
-            {rgbOrHex ? <button  className='border-2 px-2 m-1 rounded-md' onClick={handleClick} type='button' >HEX</button> : null } {rgbOrHex ? <button onClick={saveValue} value={`rgb(${color[0]}, ${color[1]}, ${color[2]})`}>{`rgb(${color[0]}, ${color[1]}, ${color[2]})`}</button> : null }
+            {!rgbOrHex ? <button className='border-2 px-2 m-1 rounded-md' type='button' onClick={handleClick} >RGB</button> : <button className='border-2 px-2 m-1 rounded-md' type='button' onClick={handleClick} >HEX</button> } 
+            {!rgbOrHex ? <button onClick={saveValue} value={color}>{color.toUpperCase()}</button> : <button onClick={saveValue} value={rgbValue}>{rgbValue}</button> }
         </div>
 
-          <label htmlFor={`lockin${index}`}>Lock in:
+          <label className=' cursor-pointer'htmlFor={`lockin${index}`}>Lock in:
             <input
-              
+              className='cursor-pointer'
               id={`lockin${index}`}
               type="checkbox"
               name="subscribe"

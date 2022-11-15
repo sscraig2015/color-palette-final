@@ -1,24 +1,21 @@
-# README
+# Pretty Palettes
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Foobar is a Python library for dealing with word pluralization.
 
-Things you may want to cover:
 
-* Ruby version
+## Usage
 
-* System dependencies
+A live demo can be found [here](https://pretty-palettes.onrender.com/home).
 
-* Configuration
+### Homepage
+Here you can generate a new palette at random or save colors you like and a palette will generate in regards to selected colors.
 
-* Database creation
+![home_screen](public/Images/homescreen.png)
 
-* Database initialization
+## Tech
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+## Shoutouts
 
-* Deployment instructions
+Big thank you to the team at [Huemint](https://huemint.com/about/). Huemint is the API that generates the palette. I am simply making a call to that API with any use preferences, such as what colors they'd like to iterate on. 
 
-* ...

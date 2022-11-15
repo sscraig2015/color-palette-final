@@ -15,8 +15,8 @@ const Homepage = () => {
   const [saveAlert, setSaveAlert] = useState(false)
   const [alert, setAlert] = useState(false)
 
+
   const palette = useSelector((state) => state.palette.paletteHome)
-  console.log(palette)
 
   //Generates new palette on load
   useEffect(() => {

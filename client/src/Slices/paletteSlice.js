@@ -42,15 +42,13 @@ export const addTag = createAsyncThunk('palettes/addTag', (data) => {
 
 export const homePalette = createAsyncThunk('palettes/homePalette', () => {
 
-
-
     const options = {
         method: 'POST',
         headers: {"Content-type": "application/json"},
         body: JSON.stringify({
             mode: "transformer", 
             num_colors: 5, 
-            temperature: "1.2", 
+            temperature: "1.4", 
             num_results: 1, 
             adjacency: [
                 "0",
@@ -93,14 +91,6 @@ export const homePalette = createAsyncThunk('palettes/homePalette', () => {
     return fetch(`https://api.huemint.com/color`, options)
         .then((r) => r.json())
 
-    // const options = {
-    //     method: 'POST',
-    //     body: JSON.stringify({ 	
-    //       model : "default",
-    //       input : ["N","N","N","N","N"]})
-    //   }
-    //   return fetch(`http://colormind.io/api/`, options)
-    //     .then((r) => r.json())
         
 })
 
@@ -110,19 +100,53 @@ export const newUserPalette = createAsyncThunk('palettes/newUserPalette', (saved
       
     if(savedColors.length < 5){
       while ( userColors.length < 5) {
-        userColors.push("N")
+        userColors.push("-")
       }
     }
-  
+
     const options = {
         method: 'POST',
-        body: JSON.stringify({ 	
-        model : "default",
-        input : userColors})
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({
+            mode: "transformer", 
+            num_colors: 5, 
+            temperature: "1.4", 
+            num_results: 1, 
+            adjacency: [
+                "0",
+                "65",
+                "45",
+                "35",
+                "65",
+                "0",
+                "35",
+                "65",
+                "45",
+                "35",
+                "0",
+                "35",
+                "35",
+                "65",
+                "35",
+                "0",
+                "65",
+                "45",
+                "35",
+                "0",
+                "35",
+                "35",
+                "65",
+                "35",
+                "0"
+                
+            ],
+            palette: userColors
+        })
     }
-    
-    return fetch(`http://colormind.io/api/`, options)
-          .then((r) => r.json())
+
+    return fetch(`https://api.huemint.com/color`, options)
+        .then((r) => r.json())
+
 
 })
 
@@ -162,11 +186,11 @@ const paletteSlice = createSlice({
             state.errors = action.error.message
         },
         [homePalette.fulfilled](state, action){
-            console.log(action)
+
             state.paletteHome = action.payload.results[0].palette
         },
         [newUserPalette.fulfilled](state, action){
-            state.paletteHome = action.payload.result
+            state.paletteHome = action.payload.results[0].palette
         },
         [fetchLatestPalettes.fulfilled](state, action){
             

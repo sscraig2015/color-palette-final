@@ -29,7 +29,7 @@ Upload an image and receive that images' palette.
 
 ## Tech
 
-<img src='./public/Images/redux' width="100" height="38"/> 
+<img src='public/Images/redux' width="100" height="38"/> 
 
 ## Shoutouts
 
